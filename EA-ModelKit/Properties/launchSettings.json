@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EA-ModelKit": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Sparx Systems\\EA\\EA.exe"
+    }
+  }
+}

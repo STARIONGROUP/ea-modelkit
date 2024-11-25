@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net481</TargetFramework>
+        <Title>Generic data exporter/importer for Enterprise Architect</Title>
+        <VersionPrefix>1.0.0.0</VersionPrefix>
+        <Description>Generic data exporter/importer for Enterprise Architect</Description>
+        <LangVersion>latest</LangVersion>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <UseWPF>true</UseWPF>
+        <Authors>Antoine Théate, Sam Gerené</Authors>
+        <Product>EAModelKit</Product>
+        <UseWindowsForms>true</UseWindowsForms>
+        <AssemblyTitle>EAModelKit</AssemblyTitle>
+        <RootNamespace>EAModelKit</RootNamespace>
+        <ProjectGuid>{3F066343-0CDF-47B2-AF03-52746F1AA075}</ProjectGuid>
+        <Company>Starion Group S.A.</Company>
+        <Copyright>Copyright © Starion Group S.A.</Copyright>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <LangVersion>latest</LangVersion>
+        <Configurations>Debug;Release;CICD</Configurations>
+        <AssemblyName>EAModelKit</AssemblyName>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' Or '$(Configuration)' == 'Release' ">
+        <RegisterForComInterop>true</RegisterForComInterop>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="8.1.1" />
+        <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />
+        <PackageReference Include="DevExpress.Wpf" Version="24.1.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+        <PackageReference Include="ReactiveUI.WPF" Version="20.1.63" />
+        <PackageReference Include="ReactiveUI" Version="20.1.63" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Interop.EA">
+            <HintPath>..\lib\Interop.EA.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Web" />
+    </ItemGroup>
+</Project>
