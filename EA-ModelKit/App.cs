@@ -32,6 +32,7 @@ namespace EAModelKit
     using EA;
 
     using EAModelKit.Extensions;
+    using EAModelKit.Services.Dispatcher;
     using EAModelKit.Services.Logger;
     using EAModelKit.Services.Version;
 
@@ -49,16 +50,6 @@ namespace EAModelKit
     public class App
     {
         /// <summary>
-        /// Gets the <see cref="ILoggerService"/>
-        /// </summary>
-        private ILoggerService logger;
-        
-        /// <summary>
-        /// Gets the <see cref="IVersionService"/>
-        /// </summary>
-        private IVersionService versionService;
-
-        /// <summary>
         /// The name of the Ribbon Category
         /// </summary>
         private const string RibbonCategoryName = "Publish";
@@ -67,11 +58,26 @@ namespace EAModelKit
         /// The name of the menu header, inisde the ribbon
         /// </summary>
         private const string MenuHeaderName = "-&EA ModelKit";
-        
+
         /// <summary>
         /// The name of the Generic Export Entry
         /// </summary>
         private const string GenericExportEntry = "&Generic Export";
+
+        /// <summary>
+        /// Gets the <see cref="IDispatcherService" />
+        /// </summary>
+        private IDispatcherService dispatcher;
+
+        /// <summary>
+        /// Gets the <see cref="ILoggerService" />
+        /// </summary>
+        private ILoggerService logger;
+
+        /// <summary>
+        /// Gets the <see cref="IVersionService" />
+        /// </summary>
+        private IVersionService versionService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
@@ -106,7 +112,7 @@ namespace EAModelKit
                 Log.Logger.Write(LogEventLevel.Fatal, ex, "App failed to start");
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the <see cref="IContainer" />
         /// </summary>
@@ -121,23 +127,25 @@ namespace EAModelKit
             containerBuilder ??= new ContainerBuilder();
             Container = containerBuilder.Build();
         }
-        
+
         /// <summary>
         /// Called before EA starts to check Add-In Exists, necessary for the Add-In to work
         /// </summary>
         /// <param name="repository">The <see cref="EA.Repository" /></param>
         public void EA_Connect(Repository repository)
         {
+            this.dispatcher.Connect(repository);
         }
-        
+
         /// <summary>
         /// EA calls this operation on Exit
         /// </summary>
         public void EA_Disconnect()
         {
+            this.dispatcher.Disconnect();
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomainOnAssemblyResolve;
         }
-        
+
         /// <summary>
         /// Used by EA to identify the the Ribbon in which the Add-In should place its menu icon
         /// </summary>
@@ -147,7 +155,7 @@ namespace EAModelKit
         {
             return RibbonCategoryName;
         }
-        
+
         /// <summary>
         /// Called when user Clicks Add-Ins Menu item from within EA.
         /// </summary>
@@ -184,6 +192,41 @@ namespace EAModelKit
         }
 
         /// <summary>
+        /// EA_MenuClick events are received by an Add-In in response to user selection of a menu option.
+        /// The event is raised when the user clicks on a particular menu option. When a user clicks on one of your non-parent menu
+        /// options, your Add-In receives a <c>MenuClick</c> event.
+        /// Notice that your code can directly access Enterprise Architect data and UI elements using CurrentRepository methods.
+        /// </summary>
+        /// <param name="repository">
+        /// An EA.CurrentRepository object representing the currently open Enterprise Architect model. Poll its
+        /// members to retrieve model data and user interface status information.
+        /// </param>
+        /// <param name="location">Not used</param>
+        /// <param name="menuName">
+        /// The name of the parent menu for which sub-items are to be defined.
+        /// In the case of the top-level menu this is an empty string.
+        /// Not used.
+        /// </param>
+        /// <param name="itemName">The name of the option actually clicked.</param>
+        public void EA_MenuClick(Repository repository, string location, string menuName, string itemName)
+        {
+            try
+            {
+                    switch (itemName)
+                    {
+                        case GenericExportEntry:
+                            this.dispatcher.OnGenericExport(repository);
+                            break;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogException(ex, "An exception occured while proceeding to the {0} action!", itemName);
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Called once Menu has been opened to see what menu items should active.
         /// </summary>
         /// <param name="repository">the repository</param>
@@ -207,8 +250,9 @@ namespace EAModelKit
             loggerFactory.AddSerilog();
             this.logger = scope.Resolve<ILoggerService>();
             this.versionService = scope.Resolve<IVersionService>();
+            this.dispatcher = scope.Resolve<IDispatcherService>();
         }
-        
+
         /// <summary>
         /// Occures when <see cref="AppDomain.AssemblyResolve" /> event is called
         /// </summary>

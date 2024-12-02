@@ -27,13 +27,21 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="Interop.EA">
         <HintPath>..\lib\Interop.EA.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Resources\SelectionService\AllExistingPackages.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\SelectionService\AllSelectedElements.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Resources\SelectionService\EmptyElements.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

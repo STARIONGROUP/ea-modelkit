@@ -24,12 +24,15 @@ namespace EAModelKit.Extensions
 
     using AutofacSerilogIntegration;
 
+    using EAModelKit.Services.Dispatcher;
     using EAModelKit.Services.Logger;
+    using EAModelKit.Services.Selection;
+    using EAModelKit.Services.Version;
 
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Extension class for <see cref="ContainerBuilder"/>
+    /// Extension class for <see cref="ContainerBuilder" />
     /// </summary>
     public static class ContainerBuilderExtensions
     {
@@ -46,6 +49,9 @@ namespace EAModelKit.Extensions
                 .SingleInstance();
 
             builder.RegisterType<LoggerService>().As<ILoggerService>().SingleInstance();
+            builder.RegisterType<VersionService>().As<IVersionService>().SingleInstance();
+            builder.RegisterType<SelectionService>().As<ISelectionService>().SingleInstance();
+            builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
         }
 
         /// <summary>
