@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="VersionService.cs" company="Starion Group S.A.">
+// <copyright file="ContainerBuilderExtensionsTestFixture.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,27 +18,34 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Version
+namespace EAModelKit.Tests.Extensions
 {
-    using System;
-    using System.Reflection;
+    using Autofac;
 
-    /// <summary>
-    /// The <see cref="VersionService" /> provides version information about the EA Plugin
-    /// </summary>
-    internal class VersionService : IVersionService
+    using EAModelKit.Extensions;
+
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class ContainerBuilderExtensionsTestFixture
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VersionService" /> class.
-        /// </summary>
-        public VersionService()
+        private ContainerBuilder containerBuilder;
+
+        [SetUp]
+        public void SetUp()
         {
-            this.Version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.containerBuilder = new ContainerBuilder();
         }
 
-        /// <summary>
-        /// Gets the <see cref="Version" /> of the EA Plugin
-        /// </summary>
-        public Version Version { get; }
+        [Test]
+        public void VerifyContainerBuilderExtensions()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => this.containerBuilder.RegisterViewModels(), Throws.Nothing);
+                Assert.That(() => this.containerBuilder.RegisterServices(), Throws.Nothing);
+                Assert.That(() => this.containerBuilder.Build(), Throws.Nothing);
+            });
+        }
     }
 }

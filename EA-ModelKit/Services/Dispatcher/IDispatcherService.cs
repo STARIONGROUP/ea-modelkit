@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="VersionService.cs" company="Starion Group S.A.">
+// <copyright file="IDispatcherService.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,27 +18,30 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Version
+namespace EAModelKit.Services.Dispatcher
 {
-    using System;
-    using System.Reflection;
+    using EA;
 
     /// <summary>
-    /// The <see cref="VersionService" /> provides version information about the EA Plugin
+    /// The <see cref="IDispatcherService" /> provides EA events abstraction layer and available actions entry point
     /// </summary>
-    internal class VersionService : IVersionService
+    internal interface IDispatcherService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VersionService" /> class.
+        /// Handles the connection to EA
         /// </summary>
-        public VersionService()
-        {
-            this.Version = Assembly.GetExecutingAssembly().GetName().Version;
-        }
+        /// <param name="repository">The EA <see cref="Repository" /></param>
+        void Connect(Repository repository);
 
         /// <summary>
-        /// Gets the <see cref="Version" /> of the EA Plugin
+        /// Handles the disconnection to EA
         /// </summary>
-        public Version Version { get; }
+        void Disconnect();
+
+        /// <summary>
+        /// Handles the Generic Export action
+        /// </summary>
+        /// <param name="repository">The EA <see cref="Repository" /></param>
+        void OnGenericExport(Repository repository);
     }
 }

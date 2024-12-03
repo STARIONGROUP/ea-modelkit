@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="VersionService.cs" company="Starion Group S.A.">
+// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,27 +18,22 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Version
+namespace EAModelKit.Services.Selection
 {
-    using System;
-    using System.Reflection;
+    using System.Collections.Generic;
+
+    using EA;
 
     /// <summary>
-    /// The <see cref="VersionService" /> provides version information about the EA Plugin
+    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
     /// </summary>
-    internal class VersionService : IVersionService
+    internal interface ISelectionService
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VersionService" /> class.
+        /// Queries all <see cref="Element" /> that are part of the current selection.
         /// </summary>
-        public VersionService()
-        {
-            this.Version = Assembly.GetExecutingAssembly().GetName().Version;
-        }
-
-        /// <summary>
-        /// Gets the <see cref="Version" /> of the EA Plugin
-        /// </summary>
-        public Version Version { get; }
+        /// <param name="repository">The <see cref="Repository"/></param>
+        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
+        public IReadOnlyCollection<Element> QuerySelectedElements(Repository repository);
     }
 }

@@ -277,10 +277,10 @@
 	<s:Boolean x:Key="/Default/CodeStyle/EditorConfig/ShowEditorConfigStatusBarIndicator/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/EncapsulateField/MakeFieldPrivate/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/EncapsulateField/UpdateExternalUsagesOnly/@EntryValue">False</s:Boolean>
-	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue"> -------------------------------------------------------------------------------------------------
-  &lt;copyright file="${File.FileName}" company="Starion Group S.A."&gt;
+	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">-------------------------------------------------------------------------------------------------
+&lt;copyright file="${File.FileName}" company="Starion Group S.A."&gt;
  
-    Copyright ${CurrentDate.Year} Starion Group S.A.
+    Copyright (C) ${CurrentDate.Year} Starion Group S.A.
  
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -288,14 +288,14 @@
  
         http://www.apache.org/licenses/LICENSE-2.0
  
-    Unless required by applicable law or agreed to in writing, softwareUseCases
+    Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
  
-  &lt;/copyright&gt;
-  ------------------------------------------------------------------------------------------------</s:String>
+&lt;/copyright&gt;
+-----------------------------------------------------------------------------------------------</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpAutoNaming/IsNotificationDisabled/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpNaming/ApplyAutoDetectedRules/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>

@@ -31,20 +31,20 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="8.1.1" />
-        <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />
-        <PackageReference Include="DevExpress.Wpf" Version="24.1.7" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
-        <PackageReference Include="ReactiveUI.WPF" Version="20.1.63" />
-        <PackageReference Include="ReactiveUI" Version="20.1.63" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+        <PackageReference Include="Autofac" Version="8.1.1"/>
+        <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0"/>
+        <PackageReference Include="DevExpress.Wpf" Version="24.1.7"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0"/>
+        <PackageReference Include="ReactiveUI.WPF" Version="20.1.63"/>
+        <PackageReference Include="ReactiveUI" Version="20.1.63"/>
+        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
     </ItemGroup>
     <ItemGroup>
         <Reference Include="Interop.EA">
             <HintPath>..\lib\Interop.EA.dll</HintPath>
         </Reference>
-        <Reference Include="System.Web" />
+        <Reference Include="System.Web"/>
     </ItemGroup>
 </Project>
