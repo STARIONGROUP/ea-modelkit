@@ -6,6 +6,8 @@
         <IsPackable>false</IsPackable>
         <LangVersion>latest</LangVersion>
         <Configurations>Debug;Release;CICD</Configurations>
+        <AssemblyName>EAModelKit.Tests</AssemblyName>
+        <RootNamespace>EAModelKit.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

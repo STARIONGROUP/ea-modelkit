@@ -42,10 +42,10 @@ jobs:
           dotnet sonarscanner begin /k:"STARIONGROUP_ea-modelkit" /o:"stariongroup" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="./CoverageResults/coverage.opencover.xml"
 
       - name: Build
-        run: msbuild -property:Configuration=CICD -property:platform="Any CPU" CICD  /p:RestorePackages=false
+        run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
       - name: Run Tests and Compute Coverage
-        run: vstest.console.exe EA-ModelKit.Tests\bin\CICD\EA-ModelKit.dll /Platform:x64 /EnableCodeCoverage
+        run: vstest.console.exe EA-ModelKit.Tests\bin\CICD\EAModelKit.dll /Platform:x64 /EnableCodeCoverage
 
       - name: Sonarqube end
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
