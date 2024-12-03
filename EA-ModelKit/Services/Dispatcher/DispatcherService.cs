@@ -47,7 +47,7 @@ namespace EAModelKit.Services.Dispatcher
         /// <summary>Initializes a new instance of the <see cref="DispatcherService" /> class.</summary>
         /// <param name="logger">The injected <see cref="ILoggerService" /></param>
         /// <param name="selectionService">The injected <see cref="ISelectionService" /></param>
-        internal DispatcherService(ILoggerService logger, ISelectionService selectionService)
+        public DispatcherService(ILoggerService logger, ISelectionService selectionService)
         {
             this.logger = logger;
             this.selectionService = selectionService;
