@@ -1,0 +1,50 @@
+name: "nuget package reference check"
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 8 * * *'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        # We must fetch at least the immediate parents so that if this is
+        # a pull request then we can checkout the head.
+        fetch-depth: 2
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.2.0
+
+    - name: add DevExpress nuget feed
+      run: dotnet nuget add source https://nuget.devexpress.com/api -n DXFeed -u DevExpress -p ${{ secrets.DEVEXPRESS_NUGET_KEY }} --store-password-in-clear-text
+
+    - name: Restore dependencies
+      run: nuget restore ea-modelkit.sln
+
+    - name: Build
+      run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
+
+    - name: Checking NuGet vulnerabilites
+      run: |
+        dotnet list EA-ModelKit.sln package --outdated --include-transitive
+        dotnet list EA-ModelKit.sln package --deprecated --include-transitive
+        dotnet list EA-ModelKit.sln package --vulnerable --include-transitive 2>&1 | tee vulnerabilities.log
+
+        Write-Host "Analyze dotnet list package command log output..."
+        $logContent = Get-Content vulnerabilities.log
+        if ($logContent -match '\bcritical\b|\bhigh\b|\bmoderate\b|\blow\b') {
+            Write-Host "Security Vulnerabilities found"
+            exit 1
+        } else {
+            Write-Host "No Security Vulnerabilities found"
+            exit 0
+        }
+      shell: pwsh

@@ -1,0 +1,53 @@
+name: Build & Test & SonarQube
+
+on:
+  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          overwrite-settings: false
+          
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.3.1
+
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1.2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: add DevExpress nuget feed
+        run: dotnet nuget add source https://nuget.devexpress.com/api -n DXFeed -u DevExpress -p ${{ secrets.DEVEXPRESS_NUGET_KEY }} --store-password-in-clear-text
+
+      - name: Restore dependencies
+        run: nuget restore ea-modelkit.sln
+        
+      - name: Sonarqube Begin
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /k:"STARIONGROUP_ea-modelkit" /o:"stariongroup" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="./CoverageResults/coverage.opencover.xml"
+
+      - name: Build
+        run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
+
+      - name: Run Tests and Compute Coverage
+        run: vstest.console.exe EA-ModelKit.Tests\bin\CICD\net481\EAModelKit.Tests.dll /Platform:x64 /EnableCodeCoverage
+
+      - name: Sonarqube end
+        run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
