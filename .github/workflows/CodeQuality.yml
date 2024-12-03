@@ -47,7 +47,7 @@ jobs:
         run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
       - name: Run Tests and Compute Coverage
-        run: dotnet test ea-modelkit.sln --no-restore --no-build --verbosity normal /p:Configuration=CICD /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"opencover,json\"
+        run: dotnet test ea-modelkit.sln --no-restore --no-build --verbosity normal -c CICD /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"opencover,json\"
 
       - name: Sonarqube end
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
