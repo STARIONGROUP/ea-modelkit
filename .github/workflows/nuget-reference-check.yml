@@ -34,18 +34,17 @@ jobs:
 
     - name: Checking NuGet vulnerabilites
       run: |
-        set -e
         dotnet list EA-ModelKit.sln package --outdated --include-transitive
-
         dotnet list EA-ModelKit.sln package --deprecated --include-transitive
-
         dotnet list EA-ModelKit.sln package --vulnerable --include-transitive 2>&1 | tee vulnerabilities.log
 
-        echo "Analyze dotnet list package command log output..."
-        if grep -q -i "\bcritical\b\|\bhigh\b\|\bmoderate\b\|\blow\b" vulnerabilities.log; then
-            echo "Security Vulnerabilities found"
+        Write-Host "Analyze dotnet list package command log output..."
+        $logContent = Get-Content vulnerabilities.log
+        if ($logContent -match '\bcritical\b|\bhigh\b|\bmoderate\b|\blow\b') {
+            Write-Host "Security Vulnerabilities found"
             exit 1
-        else
-            echo "No Security Vulnerabilities found"
+        } else {
+            Write-Host "No Security Vulnerabilities found"
             exit 0
-        fi
+        }
+      shell: pwsh
