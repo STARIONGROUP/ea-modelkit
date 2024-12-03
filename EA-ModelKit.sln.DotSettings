@@ -277,8 +277,8 @@
 	<s:Boolean x:Key="/Default/CodeStyle/EditorConfig/ShowEditorConfigStatusBarIndicator/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/EncapsulateField/MakeFieldPrivate/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/EncapsulateField/UpdateExternalUsagesOnly/@EntryValue">False</s:Boolean>
-	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue"> -------------------------------------------------------------------------------------------------
-  &lt;copyright file="${File.FileName}" company="Starion Group S.A."&gt;
+	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">-------------------------------------------------------------------------------------------------
+&lt;copyright file="${File.FileName}" company="Starion Group S.A."&gt;
  
     Copyright ${CurrentDate.Year} Starion Group S.A.
  
@@ -294,8 +294,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  
-  &lt;/copyright&gt;
-  ------------------------------------------------------------------------------------------------</s:String>
+&lt;/copyright&gt;
+-----------------------------------------------------------------------------------------------</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpAutoNaming/IsNotificationDisabled/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpNaming/ApplyAutoDetectedRules/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>

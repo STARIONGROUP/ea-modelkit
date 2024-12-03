@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="SelectionService.cs" company="Starion Group S.A.">
+//  <copyright file="SelectionService.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,13 +15,14 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Services.Selection
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Xml.Linq;
 
@@ -58,14 +59,16 @@ namespace EAModelKit.Services.Selection
 
             var sqlQuery = $"SELECT Object_ID from t_object WHERE Package_ID in ({string.Join(",", allSelectedPackages)}) AND Object_Type != 'Package'";
             var sqlResponse = repository.SQLQuery(sqlQuery);
-            
+
             var xElement = XElement.Parse(sqlResponse);
             var xRows = xElement.Descendants("Row");
-            var selectedElementsId = xRows.Select(r => int.Parse(r.Elements().First(MatchElementByName("Object_ID")).Value)).Distinct().ToList();
+
+            var selectedElementsId = xRows.Select(r => int.Parse(r.Elements().First(MatchElementByName("Object_ID")).Value,
+                CultureInfo.InvariantCulture)).Distinct().ToList();
 
             return selectedElementsId.Count == 0 ? [] : repository.GetElementSet(string.Join(",", selectedElementsId), 0).OfType<Element>().ToList();
         }
-        
+
         /// <summary>
         /// Queries <see cref="Package" />s id that are part of the selection, without any nesting
         /// </summary>
@@ -102,7 +105,7 @@ namespace EAModelKit.Services.Selection
         /// Queries all <see cref="PackageWrapper" /> that exists inside the current EA project
         /// </summary>
         /// <param name="repository">The <see cref="IDualRepository" /></param>
-        /// <returns></returns>
+        /// <returns>A read-only collection of <see cref="PackageWrapper" />, for all Package that exists inside the current EA project</returns>
         private static IReadOnlyCollection<PackageWrapper> QueriesAllExistingPackages(IDualRepository repository)
         {
             const string sqlQuery = "SELECT package.Package_Id as PACKAGE_ID, package.Parent_Id as PARENT_ID from t_package package";
@@ -114,8 +117,8 @@ namespace EAModelKit.Services.Selection
             [
                 ..xRows.Select(r => new PackageWrapper
                 {
-                    PackageId = int.Parse(r.Elements().First(MatchElementByName("PACKAGE_ID")).Value),
-                    ContainerId = int.Parse(r.Elements().First(MatchElementByName("PARENT_ID")).Value)
+                    PackageId = int.Parse(r.Elements().First(MatchElementByName("PACKAGE_ID")).Value, CultureInfo.InvariantCulture),
+                    ContainerId = int.Parse(r.Elements().First(MatchElementByName("PARENT_ID")).Value, CultureInfo.InvariantCulture)
                 })
             ];
         }

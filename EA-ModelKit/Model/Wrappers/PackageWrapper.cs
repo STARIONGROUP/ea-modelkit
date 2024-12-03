@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="Package.cs" company="Starion Group S.A.">
+//  <copyright file="PackageWrapper.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Model.Wrappers
 {
@@ -75,7 +75,7 @@ namespace EAModelKit.Model.Wrappers
         /// Gets the name of the <see cref="PackageWrapper" />
         /// </summary>
         public string PackageName { get; set; }
-        
+
         /// <summary>
         /// Queries nested <see cref="PackageWrapper" /> id that are contained into a <see cref="PackageWrapper" />
         /// </summary>

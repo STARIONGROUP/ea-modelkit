@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="App.cs" company="Starion Group S.A.">
+//  <copyright file="App.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit
 {
@@ -212,11 +212,14 @@ namespace EAModelKit
         {
             try
             {
-                    switch (itemName)
-                    {
-                        case GenericExportEntry:
-                            this.dispatcher.OnGenericExport(repository);
-                            break;
+                switch (itemName)
+                {
+                    case GenericExportEntry:
+                        this.dispatcher.OnGenericExport(repository);
+                        break;
+                    default:
+                        this.logger.Log(LogLevel.Error, "Unsupported item action {0}", itemName);
+                        break;
                 }
             }
             catch (Exception ex)

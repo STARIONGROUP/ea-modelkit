@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="DispatcherService.cs" company="Starion Group S.A.">
+//  <copyright file="DispatcherService.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Services.Dispatcher
 {
@@ -30,24 +30,24 @@ namespace EAModelKit.Services.Dispatcher
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// The <see cref="DispatcherService"/> provides EA events abstraction layer and available actions entry point
+    /// The <see cref="DispatcherService" /> provides EA events abstraction layer and available actions entry point
     /// </summary>
-    internal class DispatcherService: IDispatcherService
+    internal class DispatcherService : IDispatcherService
     {
         /// <summary>
-        /// Gets the injected <see cref="ILoggerService"/>
+        /// Gets the injected <see cref="ILoggerService" />
         /// </summary>
         private readonly ILoggerService logger;
 
         /// <summary>
-        /// Gets the injected <see cref="ISelectionService"/>
+        /// Gets the injected <see cref="ISelectionService" />
         /// </summary>
         private readonly ISelectionService selectionService;
 
         /// <summary>Initializes a new instance of the <see cref="DispatcherService" /> class.</summary>
-        /// <param name="logger">The injected <see cref="ILoggerService"/></param>
-        /// <param name="selectionService">The injected <see cref="ISelectionService"/></param>
-        public DispatcherService(ILoggerService logger, ISelectionService selectionService)
+        /// <param name="logger">The injected <see cref="ILoggerService" /></param>
+        /// <param name="selectionService">The injected <see cref="ISelectionService" /></param>
+        internal DispatcherService(ILoggerService logger, ISelectionService selectionService)
         {
             this.logger = logger;
             this.selectionService = selectionService;
@@ -61,7 +61,7 @@ namespace EAModelKit.Services.Dispatcher
         {
             this.logger.InitializeService(repository);
             this.logger.Log(LogLevel.Information, "EA Model-Kit plugin successfully connected to EA");
-        }   
+        }
 
         /// <summary>
         /// Handles the disconnection to EA

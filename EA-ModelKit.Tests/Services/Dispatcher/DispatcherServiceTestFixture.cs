@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="DispatcherServiceTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="DispatcherServiceTestFixture.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Tests.Services.Dispatcher
 {
@@ -39,14 +39,14 @@ namespace EAModelKit.Tests.Services.Dispatcher
         private Mock<ISelectionService> selectionService;
         private Mock<ILoggerService> loggerService;
         private Mock<Repository> repository;
-        
+
         [SetUp]
         public void Setup()
         {
             this.selectionService = new Mock<ISelectionService>();
             this.loggerService = new Mock<ILoggerService>();
             this.repository = new Mock<Repository>();
-            
+
             this.dispatcher = new DispatcherService(this.loggerService.Object, this.selectionService.Object);
         }
 
@@ -82,7 +82,7 @@ namespace EAModelKit.Tests.Services.Dispatcher
                 CreateNewElement("Block"),
                 CreateNewElement("Block")
             };
-            
+
             this.selectionService.Setup(x => x.QuerySelectedElements(this.repository.Object)).Returns(selectedElements);
             this.dispatcher.OnGenericExport(this.repository.Object);
 

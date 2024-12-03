@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="TestCollection.cs" company="Starion Group S.A.">
+//  <copyright file="TestCollection.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Tests.Helpers
 {
@@ -31,9 +31,9 @@ namespace EAModelKit.Tests.Helpers
     /// Class that is there to facilitate unit tests when touching <see cref="Collection"/>, since all constructors for all EA classes are internal
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class TestCollection: Collection
+    public class TestCollection : Collection
     {
-         /// <summary>
+        /// <summary>
         /// A containedObjects of the contained object
         /// </summary>
         private readonly List<object> containedObjects;

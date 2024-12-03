@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="ContainerBuilderExtensionsTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="ContainerBuilderExtensionsTestFixture.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Tests.Extensions
 {
@@ -42,9 +42,9 @@ namespace EAModelKit.Tests.Extensions
         {
             Assert.Multiple(() =>
             {
-                Assert.That(() => this.containerBuilder.RegisterViewModels(), Throws.Nothing);                
-                Assert.That(() => this.containerBuilder.RegisterServices(), Throws.Nothing);                
-                Assert.That(() => this.containerBuilder.Build(), Throws.Nothing);                
+                Assert.That(() => this.containerBuilder.RegisterViewModels(), Throws.Nothing);
+                Assert.That(() => this.containerBuilder.RegisterServices(), Throws.Nothing);
+                Assert.That(() => this.containerBuilder.Build(), Throws.Nothing);
             });
         }
     }

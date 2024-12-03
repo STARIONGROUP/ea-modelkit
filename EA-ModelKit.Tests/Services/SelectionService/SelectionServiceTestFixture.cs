@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-//   <copyright file="SelectionServiceTestFixture.cs" company="Starion Group S.A.">
+//  <copyright file="SelectionServiceTestFixture.cs" company="Starion Group S.A.">
 // 
 //     Copyright 2024 Starion Group S.A.
 // 
@@ -15,8 +15,8 @@
 //     See the License for the specific language governing permissions and
 //     limitations under the License.
 // 
-//   </copyright>
-//   ------------------------------------------------------------------------------------------------
+//  </copyright>
+// ------------------------------------------------------------------------------------------------
 
 namespace EAModelKit.Tests.Services.SelectionService
 {
@@ -68,10 +68,10 @@ namespace EAModelKit.Tests.Services.SelectionService
                 new Mock<Diagram>().Object,
                 new Mock<Diagram>().Object
             };
-            
+
             this.selection.Setup(x => x.ElementSet).Returns(new TestCollection(selectedElements));
             var selectedElementsResponse = this.selectionService.QuerySelectedElements(this.repository.Object);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.That(selectedElementsResponse, Is.Not.Empty);
@@ -93,25 +93,25 @@ namespace EAModelKit.Tests.Services.SelectionService
 
             var emptyElementsContent = QueryResourceContent("EmptyElements.xml");
             this.repository.Setup(x => x.SQLQuery(It.Is<string>(s => s.Contains(" from t_object ")))).Returns(emptyElementsContent);
-            
+
             Assert.That(this.selectionService.QuerySelectedElements(this.repository.Object), Is.Empty);
-            
+
             // Contains 9 ids
             var existingElementsContent = QueryResourceContent("AllSelectedElements.xml");
             this.repository.Setup(x => x.SQLQuery(It.Is<string>(s => s.Contains(" from t_object ")))).Returns(existingElementsContent);
 
             var existingElements = new List<Element>();
             var xElement = XElement.Parse(existingElementsContent);
-            
+
             for (var existingElementsIndex = 0; existingElementsIndex < xElement.Descendants("Row").Count(); existingElementsIndex++)
             {
                 existingElements.Add(new Mock<Element>().Object);
             }
-            
-            this.repository.Setup(x => x.GetElementSet(It.IsAny<string>(),0)).Returns(new TestCollection(existingElements));
-    
+
+            this.repository.Setup(x => x.GetElementSet(It.IsAny<string>(), 0)).Returns(new TestCollection(existingElements));
+
             var selectedElementsResponse = this.selectionService.QuerySelectedElements(this.repository.Object);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.That(selectedElementsResponse, Is.Not.Empty);
@@ -122,7 +122,7 @@ namespace EAModelKit.Tests.Services.SelectionService
 
         private static string QueryResourceContent(string fileName)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "SelectionService",fileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "SelectionService", fileName);
             return File.ReadAllText(path);
         }
     }
