@@ -20,6 +20,7 @@
 
 namespace EAModelKit.Model.Wrappers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -43,6 +44,11 @@ namespace EAModelKit.Model.Wrappers
         /// <param name="package">The associated <see cref="IDualPackage" /></param>
         public PackageWrapper(IDualPackage package)
         {
+            if (package == null)
+            {
+                throw new ArgumentNullException(nameof(package));
+            }
+
             this.PackageName = package.Name;
             this.ContainerId = package.ParentID;
             this.PackageId = package.PackageID;
