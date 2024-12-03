@@ -30,7 +30,7 @@ jobs:
       run: nuget restore ea-modelkit.sln
 
     - name: Build
-      run: msbuild -property:Configuration=CICD -property:platform="Any CPU" CICD  /p:RestorePackages=false
+      run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
     - name: Checking NuGet vulnerabilites
       run: |

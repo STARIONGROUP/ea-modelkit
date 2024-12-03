@@ -38,5 +38,8 @@ jobs:
     - name: Restore dependencies
       run: nuget restore ea-modelkit.sln
 
+    - name: Build
+      run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
