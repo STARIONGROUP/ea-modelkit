@@ -38,7 +38,6 @@ jobs:
         
       - name: Sonarqube Begin
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet tool install --global dotnet-sonarscanner
@@ -48,9 +47,7 @@ jobs:
         run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
       - name: Run Tests and Compute Coverage
-        run: vstest.console.exe EA-ModelKit.Tests\bin\CICD\net481\EAModelKit.dll /Platform:x64 /EnableCodeCoverage
+        run: vstest.console.exe EA-ModelKit.Tests\bin\CICD\net481\EAModelKit.Tests.dll /Platform:x64 /EnableCodeCoverage
 
       - name: Sonarqube end
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
