@@ -50,7 +50,7 @@ jobs:
         run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
       - name: Run Tests and Compute Coverage
-        run: dotnet dotcover test --dcReportType=HTML -c CICD
+        run: dotnet dotcover test --dcReportType=HTML -c CICD --dcAttributeFilters=System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute
 
       - name: Sonarqube end
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
