@@ -33,6 +33,9 @@ jobs:
       - name: add DevExpress nuget feed
         run: dotnet nuget add source https://nuget.devexpress.com/api -n DXFeed -u DevExpress -p ${{ secrets.DEVEXPRESS_NUGET_KEY }} --store-password-in-clear-text
 
+      - name: Setup DotCover
+        run: dotnet tool install --global JetBrains.dotCover.GlobalTool
+
       - name: Restore dependencies
         run: nuget restore ea-modelkit.sln
         
@@ -41,13 +44,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"STARIONGROUP_ea-modelkit" /o:"stariongroup" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="./CoverageResults/coverage.opencover.xml"
+          dotnet sonarscanner begin /k:"STARIONGROUP_ea-modelkit" /o:"stariongroup" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
 
       - name: Build
         run: msbuild ea-modelkit.sln -property:Configuration=CICD -property:platform="Any CPU" /p:RestorePackages=false
 
       - name: Run Tests and Compute Coverage
-        run: dotnet test ea-modelkit.sln --no-restore --no-build --verbosity normal -c CICD /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"opencover,json\"
+        run: dotnet dotcover test --dcReportType=HTML 
 
       - name: Sonarqube end
         run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
