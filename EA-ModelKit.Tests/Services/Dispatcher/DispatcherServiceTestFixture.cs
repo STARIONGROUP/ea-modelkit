@@ -20,17 +20,25 @@
 
 namespace EAModelKit.Tests.Services.Dispatcher
 {
+    using Autofac;
+
     using EA;
 
+    using EAModelKit.Services.Cache;
     using EAModelKit.Services.Dispatcher;
     using EAModelKit.Services.Logger;
     using EAModelKit.Services.Selection;
+    using EAModelKit.Services.ViewBuilder;
+    using EAModelKit.ViewModels.Exporter;
+    using EAModelKit.Views.Export;
 
     using Microsoft.Extensions.Logging;
 
     using Moq;
 
     using NUnit.Framework;
+
+    using App = EAModelKit.App;
 
     [TestFixture]
     public class DispatcherServiceTestFixture
@@ -39,15 +47,19 @@ namespace EAModelKit.Tests.Services.Dispatcher
         private Mock<ISelectionService> selectionService;
         private Mock<ILoggerService> loggerService;
         private Mock<Repository> repository;
-
+        private Mock<IViewBuilderService> viewBuilderService;
+        private Mock<ICacheService> cacheService;
+        
         [SetUp]
         public void Setup()
         {
             this.selectionService = new Mock<ISelectionService>();
             this.loggerService = new Mock<ILoggerService>();
             this.repository = new Mock<Repository>();
-
-            this.dispatcher = new DispatcherService(this.loggerService.Object, this.selectionService.Object);
+            this.viewBuilderService = new Mock<IViewBuilderService>();
+            this.cacheService = new Mock<ICacheService>();
+            
+            this.dispatcher = new DispatcherService(this.loggerService.Object, this.selectionService.Object, this.viewBuilderService.Object, this.cacheService.Object);
         }
 
         [Test]
@@ -72,6 +84,11 @@ namespace EAModelKit.Tests.Services.Dispatcher
         [Test]
         public void VerifyOnGenericExport()
         {
+            this.selectionService.Setup(x => x.QuerySelectedElements(this.repository.Object)).Returns([]);
+            this.dispatcher.OnGenericExport(this.repository.Object);
+
+            this.loggerService.Verify(x => x.Log(LogLevel.Warning, It.IsAny<string>()), Times.Once);
+            
             var selectedElements = new List<Element>
             {
                 CreateNewElement("Requirement"),
@@ -83,14 +100,61 @@ namespace EAModelKit.Tests.Services.Dispatcher
                 CreateNewElement("Block")
             };
 
+            var exporterViewModel = new Mock<IGenericExporterViewModel>();
+            var container = new ContainerBuilder();
+            container.RegisterInstance(exporterViewModel.Object);
+            App.BuildContainer(container);
             this.selectionService.Setup(x => x.QuerySelectedElements(this.repository.Object)).Returns(selectedElements);
             this.dispatcher.OnGenericExport(this.repository.Object);
-
+            
             Assert.Multiple(() =>
             {
-                this.loggerService.Verify(x => x.Log(LogLevel.Debug, "Found {0} Elements With Stereotype {1}", 4, "Requirement"), Times.Once);
-                this.loggerService.Verify(x => x.Log(LogLevel.Debug, "Found {0} Elements With Stereotype {1}", 3, "Block"), Times.Once);
+                exporterViewModel.Verify(x => x.InitializeViewModel(selectedElements), Times.Once);
+                this.viewBuilderService.Verify(x => x.ShowDxDialog<GenericExport, IGenericExporterViewModel>(exporterViewModel.Object), Times.Once);
             });
+        }
+
+        [Test]
+        public void VerifyResetServices()
+        {
+            this.dispatcher.OnFileOpen(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Once);
+            
+            this.dispatcher.OnFileNew(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(2));
+
+            this.dispatcher.OnPostNewPackage(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(3));
+            
+            this.dispatcher.OnPostNewElement(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(4));
+            
+            this.dispatcher.OnPostNewConnector(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(5));
+            
+            this.dispatcher.OnPostNewAttribute(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(6));
+            
+            this.dispatcher.OnPreDeleteElement(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(7));
+            
+            this.dispatcher.OnPreDeleteAttribute(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(8));
+            
+            this.dispatcher.OnPreDeleteConnector(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(9));
+            
+            this.dispatcher.OnPreDeletePackage(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(10));
+            
+            this.dispatcher.OnPostNewDiagram(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(11));
+            
+            this.dispatcher.OnPreDeleteDiagram(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(12));
+            
+            this.dispatcher.OnNotifyContextItemModified(this.repository.Object);
+            this.cacheService.Verify(x => x.Initialize(this.repository.Object), Times.Exactly(13));
         }
 
         private static Element CreateNewElement(string stereotypeName)

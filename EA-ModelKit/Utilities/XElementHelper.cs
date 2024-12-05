@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="XElementHelper.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,24 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Utilities
 {
-    using System.Collections.Generic;
-
-    using EA;
+    using System;
+    using System.Xml.Linq;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// Helper class for query on <see cref="XElement"/> 
     /// </summary>
-    internal interface ISelectionService
+    internal static class XElementHelper
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Function that verifies that an <see cref="XElement" /> matches a name
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        /// <param name="matchingName">The name that have to match</param>
+        /// <returns>A <see cref="Func{TResult}" /></returns>
+        public static Func<XElement, bool> MatchElementByName(string matchingName)
+        {
+            return x => string.Equals(x.Name.LocalName, matchingName, StringComparison.InvariantCultureIgnoreCase);
+        }
     }
 }

@@ -43,5 +43,83 @@ namespace EAModelKit.Services.Dispatcher
         /// </summary>
         /// <param name="repository">The EA <see cref="Repository" /></param>
         void OnGenericExport(Repository repository);
+
+        /// <summary>
+        /// Handles the file opening event
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnFileOpen(Repository repository);
+
+        /// <summary>
+        /// Handles the creation of a new file
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnFileNew(Repository repository);
+
+        /// <summary>
+        /// Handle the post-creation of a <see cref="Package" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPostNewPackage(Repository repository);
+
+        /// <summary>
+        /// Handle the post-creation of an <see cref="Element" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPostNewElement(Repository repository);
+
+        /// <summary>
+        /// Handle the post-creation of a <see cref="Connector" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPostNewConnector(Repository repository);
+
+        /// <summary>
+        /// Handle the post-creation of an <see cref="Attribute" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPostNewAttribute(Repository repository);
+
+        /// <summary>
+        /// Handle the pre-deletion of an <see cref="Element" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPreDeleteElement(Repository repository);
+
+        /// <summary>
+        /// Handle the pre-deletion of an <see cref="Attribute" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPreDeleteAttribute(Repository repository);
+
+        /// <summary>
+        /// Handle the pre-deletion of a <see cref="Connector" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPreDeleteConnector(Repository repository);
+
+        /// <summary>
+        /// Handle the pre-deletion of a <see cref="Package" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPreDeletePackage(Repository repository);
+
+        /// <summary>
+        /// Handle the post-creation of a <see cref="Diagram" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository"/></param>
+        void OnPostNewDiagram(Repository repository);
+
+        /// <summary>
+        /// Handle the pre-deletion of a <see cref="Diagram" />
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnPreDeleteDiagram(Repository repository);
+
+        /// <summary>
+        /// Handle the modification of the current item
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        void OnNotifyContextItemModified(Repository repository);
     }
 }

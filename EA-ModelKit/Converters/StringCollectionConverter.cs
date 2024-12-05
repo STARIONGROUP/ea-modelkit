@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="StringCollectionConverter.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,14 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Converters
 {
     using System.Collections.Generic;
 
-    using EA;
-
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// Converts a <see cref="IEnumerable{T}" /> of string to and from an <see cref="object" />
     /// </summary>
-    internal interface ISelectionService
+    internal class StringCollectionConverter : CollectionConverter<string>
     {
-        /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
-        /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
     }
 }

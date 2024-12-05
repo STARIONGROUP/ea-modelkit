@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-16" standalone="no"?>
+<EADATA exporter="Enterprise Architect" version="1.0">
+    <Dataset_0>
+        <Data>
+            <Row>
+                <Object_ID>20</Object_ID>
+                <Property>"ABC"</Property>
+                <Value>""</Value>
+            </Row>
+            <Row>
+                <Object_ID>20</Object_ID>
+                <Property>"CDF"</Property>
+                <Value>"15"</Value>
+            </Row>
+            <Row>
+                <Object_ID>26</Object_ID>
+                <Property>"CDF"</Property>
+                <Value>"16"</Value>
+            </Row>
+            <Row>
+                <Object_ID>10</Object_ID>
+                <Property>"CDF"</Property>
+                <Value>"17"</Value>
+            </Row>
+        </Data>
+    </Dataset_0>
+</EADATA>

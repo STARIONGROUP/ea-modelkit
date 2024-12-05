@@ -1,5 +1,5 @@
-﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// -------------------------------------------------------------------------------------------------
+// <copyright file="ICloseWindowBehavior.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,18 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Behaviors
 {
-    using System.Collections.Generic;
-
-    using EA;
+    using DevExpress.Mvvm.UI.Interactivity;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// The <see cref="ICloseWindowBehavior"/> provides closing behavior for a Window
     /// </summary>
-    internal interface ISelectionService
+    internal interface ICloseWindowBehavior
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Closes the <see cref="Behavior{T}.AssociatedObject"/> view
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        void Close();
     }
 }

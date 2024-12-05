@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="SlimTaggedValue.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,28 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Model.Slims
 {
-    using System.Collections.Generic;
-
     using EA;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// Slim class for the <see cref="TaggedValue"/>
     /// </summary>
-    internal interface ISelectionService
+    public class SlimTaggedValue
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Gets or sets the ID of the <see cref="TaggedValue"/>'s container
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        public int ContainerId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the <see cref="TaggedValue"/>'s name
+        /// </summary>
+        public string Name { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the <see cref="TaggedValue"/>'s value
+        /// </summary>
+        public string Value { get; set; }
     }
 }

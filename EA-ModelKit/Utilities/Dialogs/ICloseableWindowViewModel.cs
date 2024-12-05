@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="ICloseableWindowViewModel.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,19 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Utilities.Dialogs
 {
-    using System.Collections.Generic;
-
-    using EA;
+    using EAModelKit.Behaviors;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// The <see cref="ICloseableWindowViewModel" /> provides interface definition for any ViewModel that requires
+    /// an attachable <see cref="ICloseWindowBehavior" />
     /// </summary>
-    internal interface ISelectionService
+    internal interface ICloseableWindowViewModel
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Gets or sets the behavior instance
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        ICloseWindowBehavior CloseWindowBehavior { get; set; }
     }
 }
