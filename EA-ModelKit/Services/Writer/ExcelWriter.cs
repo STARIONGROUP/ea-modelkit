@@ -60,7 +60,7 @@ namespace EAModelKit.Services.Writer
         /// <param name="workBook"></param>
         /// <param name="workSheetName"></param>
         /// <param name="exportableObjects"></param>
-        private static void CreateExcelWorkSheet(XLWorkbook workBook, string workSheetName, IReadOnlyList<ExportableObject> exportableObjects)
+        private static void CreateExcelWorkSheet(IXLWorkbook workBook, string workSheetName, IReadOnlyList<ExportableObject> exportableObjects)
         {
             var headerContent = exportableObjects[0].Headers;
             var workSheet = workBook.AddWorksheet(workSheetName);
