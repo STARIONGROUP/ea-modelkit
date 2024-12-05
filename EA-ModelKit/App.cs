@@ -87,7 +87,8 @@ namespace EAModelKit
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!);
+
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(typeof(App).Assembly.Location)!);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel
@@ -122,9 +123,8 @@ namespace EAModelKit
         /// Builds the <see cref="Container" />
         /// </summary>
         /// <param name="containerBuilder">An optional <see cref="Container" /></param>
-        public static void BuildContainer(ContainerBuilder containerBuilder = null)
+        public static void BuildContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder ??= new ContainerBuilder();
             Container = containerBuilder.Build();
         }
 
@@ -171,24 +171,16 @@ namespace EAModelKit
         /// <returns>The definition of the menu option</returns>
         public object EA_GetMenuItems(Repository repository, string location, string menuName)
         {
-            switch (location)
+            return location switch
             {
-                case "MainMenu":
-                    switch (menuName)
-                    {
-                        case "":
-                            return MenuHeaderName;
-                        case MenuHeaderName:
-                            return new[]
-                            {
-                                GenericExportEntry
-                            };
-                    }
-
-                    break;
-            }
-
-            return null;
+                "MainMenu" => menuName switch
+                {
+                    "" => MenuHeaderName,
+                    MenuHeaderName => new[] { GenericExportEntry },
+                    _ => null
+                },
+                _ => null
+            };
         }
 
         /// <summary>
@@ -425,7 +417,7 @@ namespace EAModelKit
         /// <returns>The assembly</returns>
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var folderPath = Path.GetDirectoryName(typeof(App).Assembly.Location);
 
             if (string.IsNullOrEmpty(folderPath))
             {
