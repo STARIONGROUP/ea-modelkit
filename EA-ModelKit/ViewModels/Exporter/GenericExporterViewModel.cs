@@ -177,7 +177,7 @@ namespace EAModelKit.ViewModels.Exporter
                 var exportConfiguration = this.ExportSetups.Items.Where(x => x.ShouldBeExported)
                     .Select(x => new GenericExportConfiguration(x.ExportableElements, x.SelectedTaggedValuesForExport.ToList()));
                 
-                await this.exporterService.ExportElements(this.selectedFilePath, [..exportConfiguration]);
+                await this.exporterService.ExportElementsAsync(this.selectedFilePath, [..exportConfiguration]);
                 this.CloseWindowBehavior.Close();
             }
             catch (Exception ex)

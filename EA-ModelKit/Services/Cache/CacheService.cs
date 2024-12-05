@@ -51,6 +51,16 @@ namespace EAModelKit.Services.Cache
         private Dictionary<int, IReadOnlyList<SlimTaggedValue>> taggedValuesPerElement = [];
 
         /// <summary>
+        /// Initializes this service properties
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        public void Initialize(Repository repository)
+        {
+            this.resetOnNextQuery = true;
+            this.currentRepository = repository;
+        }
+        
+        /// <summary>
         /// Get all <see cref="SlimTaggedValue" /> contained by an <see cref="Element" />
         /// </summary>
         /// <param name="elementId">The ID of the <see cref="Element" /> container</param>
@@ -59,16 +69,6 @@ namespace EAModelKit.Services.Cache
         {
             this.VerifyNeedReset();
             return this.taggedValuesPerElement.TryGetValue(elementId, out var taggedValues) ? taggedValues : [];
-        }
-
-        /// <summary>
-        /// Initializes this service properties
-        /// </summary>
-        /// <param name="repository">The <see cref="Repository" /></param>
-        public void Initialize(Repository repository)
-        {
-            this.resetOnNextQuery = true;
-            this.currentRepository = repository;
         }
 
         /// <summary>

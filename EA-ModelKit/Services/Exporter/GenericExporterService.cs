@@ -64,7 +64,7 @@ namespace EAModelKit.Services.Exporter
         /// </summary>
         /// <param name="filePath">The path to the output file to be used</param>
         /// <param name="elementsConfigurations">The colleciton of <see cref="GenericExportConfiguration" /> that defines export configuration</param>
-        public async Task ExportElements(string filePath, IReadOnlyList<GenericExportConfiguration> elementsConfigurations)
+        public async Task ExportElementsAsync(string filePath, IReadOnlyList<GenericExportConfiguration> elementsConfigurations)
         {
             var exportableObjects = new Dictionary<string, IReadOnlyList<ExportableObject>>();
 
@@ -78,7 +78,7 @@ namespace EAModelKit.Services.Exporter
             this.logger.Log(LogLevel.Information, "Starting to export {0} kind of Elements, {1} Elements in total to file {2}", exportableObjects.Keys.Count,
                 exportableObjects.Values.Sum(x => x.Count), filePath);
 
-            await this.writer.Write(exportableObjects, filePath);
+            await this.writer.WriteAsync(exportableObjects, filePath);
 
             this.logger.Log(LogLevel.Information, "Export completed successfully");
         }

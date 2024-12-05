@@ -39,7 +39,7 @@ namespace EAModelKit.Services.Writer
         /// <param name="exportableObjectsContent">The Dictionary that contains all information that should be exported.</param>
         /// <param name="filePath">The export file path</param>
         /// <returns>A <see cref="Task" /></returns>
-        public Task Write(IReadOnlyDictionary<string, IReadOnlyList<ExportableObject>> exportableObjectsContent, string filePath)
+        public Task WriteAsync(IReadOnlyDictionary<string, IReadOnlyList<ExportableObject>> exportableObjectsContent, string filePath)
         {
             return Task.Run(() =>
             {
@@ -67,10 +67,13 @@ namespace EAModelKit.Services.Writer
 
             WriteHeader(workSheet, headerContent);
             WorkSheetContent(workSheet, headerContent, exportableObjects);
+
+            const double minWidth = 20;
+            const double maxWidth = 70;
             
             foreach (var item in workSheet.ColumnsUsed())
             {
-                item.AdjustToContents(20.0, 70.0);
+                item.AdjustToContents(minWidth, maxWidth);
             }
         }
 

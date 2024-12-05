@@ -38,6 +38,6 @@ namespace EAModelKit.Services.Exporter
         /// </summary>
         /// <param name="filePath">The path to the output file to be used</param>
         /// <param name="elementsConfigurations">The colleciton of <see cref="GenericExportConfiguration"/> that defines export configuration</param>
-        Task ExportElements(string filePath, IReadOnlyList<GenericExportConfiguration> elementsConfigurations);
+        Task ExportElementsAsync(string filePath, IReadOnlyList<GenericExportConfiguration> elementsConfigurations);
     }
 }

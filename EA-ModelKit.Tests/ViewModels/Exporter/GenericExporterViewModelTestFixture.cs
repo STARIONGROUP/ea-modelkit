@@ -197,7 +197,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             this.builderService.Setup(x => x.GetSaveFileDialog(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),0))
                 .Returns("abc");
 
-            this.exporterService.Setup(x => x.ExportElements(It.IsAny<string>(), It.IsAny<IReadOnlyList<GenericExportConfiguration>>()))
+            this.exporterService.Setup(x => x.ExportElementsAsync(It.IsAny<string>(), It.IsAny<IReadOnlyList<GenericExportConfiguration>>()))
                 .Returns(Task.CompletedTask);
             
             this.exporterViewModel.OutputFileCommand.Execute().Subscribe();
@@ -205,7 +205,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
 
             this.closeWindowBehavior.Verify(x => x.Close(), Times.Once);
             
-            this.exporterService.Setup(x => x.ExportElements(It.IsAny<string>(), It.IsAny<IReadOnlyList<GenericExportConfiguration>>()))
+            this.exporterService.Setup(x => x.ExportElementsAsync(It.IsAny<string>(), It.IsAny<IReadOnlyList<GenericExportConfiguration>>()))
                 .ThrowsAsync(new InvalidOperationException());
             
             this.exporterViewModel.ExportCommand.Execute().Subscribe();

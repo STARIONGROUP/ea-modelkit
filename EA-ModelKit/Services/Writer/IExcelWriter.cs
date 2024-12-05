@@ -36,6 +36,6 @@ namespace EAModelKit.Services.Writer
         /// <param name="exportableObjectsContent">The Dictionary that contains all information that should be exported.</param>
         /// <param name="filePath">The export file path</param>
         /// <returns>A <see cref="Task" /></returns>
-        Task Write(IReadOnlyDictionary<string, IReadOnlyList<ExportableObject>> exportableObjectsContent, string filePath);
+        Task WriteAsync(IReadOnlyDictionary<string, IReadOnlyList<ExportableObject>> exportableObjectsContent, string filePath);
     }
 }

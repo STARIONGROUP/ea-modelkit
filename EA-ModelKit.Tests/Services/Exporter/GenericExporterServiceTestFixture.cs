@@ -74,17 +74,17 @@ namespace EAModelKit.Tests.Services.Exporter
                 new([slimElement], [slimTaggedValue.Name])
             };
 
-            this.excelWriter.Setup(x => x.Write(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
+            this.excelWriter.Setup(x => x.WriteAsync(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
-            await this.exporterService.ExportElements("abcpath", genericConfigurations);
+            await this.exporterService.ExportElementsAsync("abcpath", genericConfigurations);
 
             this.loggerService.Verify(x => x.Log(LogLevel.Information, It.IsAny<string>(), It.IsAny<object[]>()), Times.Exactly(2));
 
-            this.excelWriter.Setup(x => x.Write(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
+            this.excelWriter.Setup(x => x.WriteAsync(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
                 .ThrowsAsync(new InvalidOperationException());
 
-            Assert.That(() => this.exporterService.ExportElements("abcpath", genericConfigurations), Throws.InvalidOperationException);
+            Assert.That(() => this.exporterService.ExportElementsAsync("abcpath", genericConfigurations), Throws.InvalidOperationException);
         }
     }
 }
