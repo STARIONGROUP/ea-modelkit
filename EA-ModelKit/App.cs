@@ -125,6 +125,7 @@ namespace EAModelKit
         /// <param name="containerBuilder">An optional <see cref="Container" /></param>
         public static void BuildContainer(ContainerBuilder containerBuilder)
         {
+            containerBuilder ??= new ContainerBuilder();
             Container = containerBuilder.Build();
         }
 
