@@ -48,9 +48,12 @@ namespace EAModelKit.Model.Export
             this.KindName = element.ElementKind;
             this.Headers = [..this.baseHeaders, ..taggedValuesToExport];
 
-            this.ExportableValues[this.baseHeaders[0]] = element.Name;
-            this.ExportableValues[this.baseHeaders[1]] = element.Alias;
-            this.ExportableValues[this.baseHeaders[2]] = WebUtility.HtmlDecode(element.Notes);
+            var values = new List<string> {element.Name, element.Alias,WebUtility.HtmlDecode(element.Notes)};
+
+            for(var baseHeaderIndex = 0;baseHeaderIndex < this.baseHeaders.Length;baseHeaderIndex++)
+            {
+                this.ExportableValues[this.baseHeaders[baseHeaderIndex]] = values[baseHeaderIndex];
+            }
 
             foreach (var taggedValueToExport in taggedValuesToExport)
             {
