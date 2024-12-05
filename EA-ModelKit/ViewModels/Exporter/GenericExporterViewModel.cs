@@ -162,13 +162,13 @@ namespace EAModelKit.ViewModels.Exporter
                 .Subscribe(_ => this.ComputeCanProceed()));
 
             this.Disposables.Add(this.WhenPropertyChanged(x => x.SelectedFilePath).Subscribe(_ => this.ComputeCanProceed()));
-            this.ExportCommand = ReactiveCommand.CreateFromTask(this.OnExport, this.WhenAnyValue(x => x.CanProceed));
+            this.ExportCommand = ReactiveCommand.CreateFromTask(this.OnExportAsync, this.WhenAnyValue(x => x.CanProceed));
         }
 
         /// <summary>
         /// Proceed with the export functionalitis following the user-defined setup
         /// </summary>
-        private async Task OnExport()
+        private async Task OnExportAsync()
         {
             this.IsBusy = true;
 
