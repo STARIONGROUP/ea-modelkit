@@ -20,7 +20,6 @@
 
 namespace EAModelKit.Services.Cache
 {
-    using System;
     using System.Collections.Generic;
 
     using EA;
@@ -33,13 +32,6 @@ namespace EAModelKit.Services.Cache
     internal interface ICacheService
     {
         /// <summary>
-        /// Get all <see cref="SlimTaggedValue" /> contained by an <see cref="Element" />
-        /// </summary>
-        /// <param name="elementId">The ID of the <see cref="Element" /> container</param>
-        /// <returns>All contained <see cref="SlimTaggedValue" /></returns>
-        IReadOnlyList<SlimTaggedValue> GetTaggedValues(int elementId);
-
-        /// <summary>
         /// Initializes this service properties
         /// </summary>
         /// <param name="repository">The <see cref="Repository" /></param>
@@ -51,5 +43,12 @@ namespace EAModelKit.Services.Cache
         /// <param name="elementIds">An array of <see cref="Element" /> id</param>
         /// <returns>A read-only collection of <see cref="SlimTaggedValue" /></returns>
         IReadOnlyList<SlimTaggedValue> GetTaggedValues(int[] elementIds);
+        
+        /// <summary>
+        /// Get all <see cref="SlimTaggedValue" /> contained by an <see cref="Element" />
+        /// </summary>
+        /// <param name="elementId">The ID of the <see cref="Element" /> container</param>
+        /// <returns>All contained <see cref="SlimTaggedValue" /></returns>
+        IReadOnlyList<SlimTaggedValue> GetTaggedValues(int elementId);
     }
 }
