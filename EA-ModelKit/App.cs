@@ -82,7 +82,7 @@ namespace EAModelKit
         /// <summary>
         /// Stores the location of the assembly, used to resolve other dependencies
         /// </summary>
-        private static string assemblyLocation;
+        private static string assemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
@@ -92,8 +92,6 @@ namespace EAModelKit
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-
-            assemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
             Directory.SetCurrentDirectory(assemblyLocation);
 
             Log.Logger = new LoggerConfiguration()
