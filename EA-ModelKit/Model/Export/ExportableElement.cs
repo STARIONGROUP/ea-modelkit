@@ -20,6 +20,7 @@
 
 namespace EAModelKit.Model.Export
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -58,7 +59,7 @@ namespace EAModelKit.Model.Export
             foreach (var taggedValueToExport in taggedValuesToExport)
             {
                 this.ExportableValues[taggedValueToExport] = element.TaggedValues.TryGetValue(taggedValueToExport, out var existingValue)
-                    ? string.Join("\n", existingValue.Select(x => x.Value))
+                    ? string.Join(Environment.NewLine, existingValue.Select(x => x.Value))
                     : string.Empty; 
             }
         }

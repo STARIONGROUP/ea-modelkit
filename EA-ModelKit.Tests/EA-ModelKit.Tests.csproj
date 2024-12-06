@@ -30,7 +30,7 @@
         <Reference Include="Interop.EA">
             <HintPath>..\lib\Interop.EA.dll</HintPath>
         </Reference>
-        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationCore"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -44,7 +44,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Resources\CacheService\TaggedValues.xml">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
