@@ -80,6 +80,11 @@ namespace EAModelKit
         private IVersionService versionService;
 
         /// <summary>
+        /// Stores the location of the assembly, used to resolve other dependencies
+        /// </summary>
+        private static string assemblyLocation;
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
         /// </summary>
         public App()
@@ -88,7 +93,8 @@ namespace EAModelKit
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
 
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(typeof(App).Assembly.Location)!);
+            assemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
+            Directory.SetCurrentDirectory(assemblyLocation);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel
@@ -418,14 +424,12 @@ namespace EAModelKit
         /// <returns>The assembly</returns>
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var folderPath = Path.GetDirectoryName(typeof(App).Assembly.Location);
-
-            if (string.IsNullOrEmpty(folderPath))
+            if (string.IsNullOrEmpty(assemblyLocation))
             {
                 return null;
             }
 
-            var assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+            var assemblyPath = Path.Combine(assemblyLocation, new AssemblyName(args.Name).Name + ".dll");
             return !File.Exists(assemblyPath) ? null : Assembly.LoadFile(assemblyPath);
         }
 
