@@ -63,7 +63,7 @@ namespace EAModelKit.Services.Writer
         private static void CreateExcelWorkSheet(IXLWorkbook workBook, string workSheetName, IReadOnlyList<ExportableObject> exportableObjects)
         {
             var headerContent = exportableObjects[0].Headers;
-            var workSheet = workBook.AddWorksheet(workSheetName);
+            var workSheet = workBook.AddWorksheet(workSheetName.Replace("/", ""));
 
             WriteHeader(workSheet, headerContent);
             WorkSheetContent(workSheet, headerContent, exportableObjects);

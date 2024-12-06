@@ -40,11 +40,23 @@ namespace EAModelKit.Model.Slims
             this.Name = element.Name;
             this.Notes = element.Notes;
             this.Alias = element.Alias;
-            this.ElementKind = string.IsNullOrEmpty(element.Stereotype) ? element.Type : element.Stereotype;
+            this.ElementType = element.Type;
+            this.Stereotype = element.Stereotype;
+            this.ElementKind = string.IsNullOrEmpty(this.Stereotype) ? this.ElementType : this.Stereotype;
             
             this.TaggedValues = taggedValues.GroupBy(x => x.Name)
                 .ToDictionary(x => x.Key, IReadOnlyList<SlimTaggedValue> (x) => x.ToList());
         }
+
+        /// <summary>
+        /// Gets the type of the <see cref="Element" />
+        /// </summary>
+        public string ElementType { get; }
+
+        /// <summary>
+        /// Gets the applied stereotype to the associated <see cref="Element" />
+        /// </summary>
+        public string Stereotype { get; }
 
         /// <summary>
         /// Gets the kind of Element that is represented
