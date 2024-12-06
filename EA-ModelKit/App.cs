@@ -82,7 +82,7 @@ namespace EAModelKit
         /// <summary>
         /// Stores the location of the assembly, used to resolve other dependencies
         /// </summary>
-        private static string assemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
+        private static readonly string AssemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
@@ -92,7 +92,7 @@ namespace EAModelKit
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-            Directory.SetCurrentDirectory(assemblyLocation);
+            Directory.SetCurrentDirectory(AssemblyLocation);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel
@@ -422,12 +422,12 @@ namespace EAModelKit
         /// <returns>The assembly</returns>
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            if (string.IsNullOrEmpty(assemblyLocation))
+            if (string.IsNullOrEmpty(AssemblyLocation))
             {
                 return null;
             }
 
-            var assemblyPath = Path.Combine(assemblyLocation, new AssemblyName(args.Name).Name + ".dll");
+            var assemblyPath = Path.Combine(AssemblyLocation, new AssemblyName(args.Name).Name + ".dll");
             return !File.Exists(assemblyPath) ? null : Assembly.LoadFile(assemblyPath);
         }
 
