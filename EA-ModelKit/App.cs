@@ -80,6 +80,11 @@ namespace EAModelKit
         private IVersionService versionService;
 
         /// <summary>
+        /// Stores the location of the assembly, used to resolve other dependencies
+        /// </summary>
+        private static readonly string AssemblyLocation = Path.GetDirectoryName(typeof(App).Assembly.Location)!;
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="App" /> class.
         /// </summary>
         public App()
@@ -87,7 +92,7 @@ namespace EAModelKit
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!);
+            Directory.SetCurrentDirectory(AssemblyLocation);
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel
@@ -122,7 +127,7 @@ namespace EAModelKit
         /// Builds the <see cref="Container" />
         /// </summary>
         /// <param name="containerBuilder">An optional <see cref="Container" /></param>
-        public static void BuildContainer(ContainerBuilder containerBuilder = null)
+        public static void BuildContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder ??= new ContainerBuilder();
             Container = containerBuilder.Build();
@@ -171,24 +176,16 @@ namespace EAModelKit
         /// <returns>The definition of the menu option</returns>
         public object EA_GetMenuItems(Repository repository, string location, string menuName)
         {
-            switch (location)
+            return location switch
             {
-                case "MainMenu":
-                    switch (menuName)
-                    {
-                        case "":
-                            return MenuHeaderName;
-                        case MenuHeaderName:
-                            return new[]
-                            {
-                                GenericExportEntry
-                            };
-                    }
-
-                    break;
-            }
-
-            return null;
+                "MainMenu" => menuName switch
+                {
+                    "" => MenuHeaderName,
+                    MenuHeaderName => new[] { GenericExportEntry },
+                    _ => null
+                },
+                _ => null
+            };
         }
 
         /// <summary>
@@ -244,6 +241,167 @@ namespace EAModelKit
         }
 
         /// <summary>
+        /// The event occurs when the model being viewed by the Enterprise Architect user changes, for whatever reason (through
+        /// user interaction or Add-In activity).
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        public void EA_FileOpen(Repository repository)
+        {
+            this.dispatcher.OnFileOpen(repository);
+        }
+
+        /// <summary>
+        /// The event occurs when the model being viewed by the Enterprise Architect user changes, for whatever reason (through
+        /// user interaction or Add-In activity).
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        public void EA_FileNew(Repository repository)
+        {
+            this.dispatcher.OnFileNew(repository);
+        }
+
+        /// <summary>
+        /// This event occurs when a user drags a new Package from the Toolbox or Resources window onto a diagram,
+        /// or by selecting the New Package icon from the Project Browser.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True if the Package has been updated during this notification. Return False otherwise.</returns>
+        public bool EA_OnPostNewPackage(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPostNewPackage(repository);
+            return false;
+        }
+
+        /// <summary>
+        /// This event occurs after a user has dragged a new element from the Toolbox or 'Resources' tab of the Browser window onto a diagram.
+        /// The notification is provided immediately after the element is added to the model.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True if the element has been updated during this notification. Return False otherwise.</returns>
+        public bool EA_OnPostNewElement(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPostNewElement(repository);
+            return false;
+        }
+
+        /// <summary>
+        /// This event occurs after a user has dragged a new connector from the Toolbox or 'Resources' tab of the Browser window onto a diagram.
+        /// The notification is provided immediately after the connector is added to the model.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True if the connector has been updated during this notification. Return False otherwise.</returns>
+        public bool EA_OnPostNewConnector(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPostNewConnector(repository);
+            return false;
+        }
+
+        /// <summary>
+        /// This event occurs when a user creates a new attribute on an element by either drag-and-dropping from the Browser window, using the 'Attributes' tab of the Features window, or using the in-place editor on the diagram.
+        /// The notification is provided immediately after the attribute is created.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True if the attribute has been updated during this notification. Return False otherwise.</returns>
+        public bool EA_OnPostNewAttribute(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPostNewAttribute(repository);
+            return false;
+        }
+
+        /// <summary>
+        /// EA_OnPostNewDiagram notifies Add-Ins that a new diagram has been created. It enables Add-Ins to modify the diagram upon creation.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True if the attribute has been updated during this notification. Return False otherwise.</returns>
+        public bool EA_OnPostNewDiagram(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPostNewDiagram(repository);
+            return false;
+        }
+
+        /// <summary>
+        /// This event occurs when a user deletes an element from the Browser window or on a diagram.
+        /// The notification is provided immediately before the element is deleted, so that the Add-In can disable deletion of the element.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True to enable deletion of the element from the model. Return False to disable deletion of the element.</returns>
+        public bool EA_OnPreDeleteElement(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPreDeleteElement(repository);
+            return true;
+        }
+
+        /// <summary>
+        /// This event occurs when a user attempts to permanently delete an attribute from the Browser window.
+        /// The notification is provided immediately before the attribute is deleted, so that the Add-In can disable deletion of the attribute.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True to enable deletion of the attribute from the model. Return False to disable deletion of the attribute.</returns>
+        public bool EA_OnPreDeleteAttribute(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPreDeleteAttribute(repository);
+            return true;
+        }
+
+        /// <summary>
+        /// This event occurs when a user attempts to permanently delete a connector on a diagram.
+        /// The notification is provided immediately before the connector is deleted, so that the Add-In can disable deletion of the connector.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True to enable deletion of the connector from the model. Return False to disable deletion of the connector.</returns>
+        public bool EA_OnPreDeleteConnector(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPreDeleteConnector(repository);
+            return true;
+        }
+
+        /// <summary>
+        /// This event occurs when a user attempts to permanently delete a Package from the Browser window.
+        /// The notification is provided immediately before the Package is deleted, so that the Add-In can disable deletion of the Package.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True to enable deletion of the Package from the model. Return False to disable deletion of the Package.</returns>
+        public bool EA_OnPreDeletePackage(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPreDeletePackage(repository);
+            return true;
+        }
+
+        /// <summary>
+        /// This event occurs when a user attempts to permanently delete a diagram from the Browser window.
+        /// The notification is provided immediately before the diagram is deleted, so that the Add-In can disable deletion of the diagram.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="info">The <see cref="EventProperties" /></param>
+        /// <returns>Return True to enable deletion of the Package from the model. Return False to disable deletion of the Package.</returns>
+        public bool EA_OnPreDeleteDiagram(Repository repository, EventProperties info)
+        {
+            this.dispatcher.OnPreDeleteDiagram(repository);
+            return true;
+        }
+
+        /// <summary>
+        /// This event occurs when a user has modified the context item. Add-Ins that require knowledge of when an item has been
+        /// modified can subscribe to this broadcast function.
+        /// </summary>
+        /// <param name="repository">The <see cref="Repository" /></param>
+        /// <param name="guid">The guid of the Item</param>
+        /// <param name="objectType">The <see cref="ObjectType" /> of the item</param>
+        public void EA_OnNotifyContextItemModified(Repository repository, string guid, ObjectType objectType)
+        {
+            this.dispatcher.OnNotifyContextItemModified(repository);
+        }
+        
+        /// <summary>
         /// Resolves all required services for the current class
         /// </summary>
         private void ResolveRequiredServices()
@@ -264,14 +422,12 @@ namespace EAModelKit
         /// <returns>The assembly</returns>
         private static Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            if (string.IsNullOrEmpty(folderPath))
+            if (string.IsNullOrEmpty(AssemblyLocation))
             {
                 return null;
             }
 
-            var assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+            var assemblyPath = Path.Combine(AssemblyLocation, new AssemblyName(args.Name).Name + ".dll");
             return !File.Exists(assemblyPath) ? null : Assembly.LoadFile(assemblyPath);
         }
 

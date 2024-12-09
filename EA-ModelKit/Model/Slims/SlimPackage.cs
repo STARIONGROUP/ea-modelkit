@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="PackageWrapper.cs" company="Starion Group S.A.">
+// <copyright file="SlimPackage.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,7 +18,7 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Model.Wrappers
+namespace EAModelKit.Model.Slims
 {
     using System;
     using System.Collections.Generic;
@@ -27,22 +27,22 @@ namespace EAModelKit.Model.Wrappers
     using EA;
 
     /// <summary>
-    /// Wrapper class for a <see cref="IDualPackage" />
+    /// Slim class for a <see cref="IDualPackage" />
     /// </summary>
-    public class PackageWrapper
+    public class SlimPackage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PackageWrapper" /> class.
+        /// Initializes a new instance of the <see cref="SlimPackage" /> class.
         /// </summary>
-        public PackageWrapper()
+        public SlimPackage()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PackageWrapper" /> class.
+        /// Initializes a new instance of the <see cref="SlimPackage" /> class.
         /// </summary>
         /// <param name="package">The associated <see cref="IDualPackage" /></param>
-        public PackageWrapper(IDualPackage package)
+        public SlimPackage(IDualPackage package)
         {
             if (package == null)
             {
@@ -78,17 +78,17 @@ namespace EAModelKit.Model.Wrappers
         public int ContainerId { get; set; }
 
         /// <summary>
-        /// Gets the name of the <see cref="PackageWrapper" />
+        /// Gets the name of the <see cref="SlimPackage" />
         /// </summary>
         public string PackageName { get; set; }
 
         /// <summary>
-        /// Queries nested <see cref="PackageWrapper" /> id that are contained into a <see cref="PackageWrapper" />
+        /// Queries nested <see cref="SlimPackage" /> id that are contained into a <see cref="SlimPackage" />
         /// </summary>
-        /// <param name="packages">A collection of all available <see cref="PackageWrapper" /></param>
-        /// <param name="containerId">The id of the container <see cref="PackageWrapper" /></param>
+        /// <param name="packages">A collection of all available <see cref="SlimPackage" /></param>
+        /// <param name="containerId">The id of the container <see cref="SlimPackage" /></param>
         /// <returns>A collection of all nested ids</returns>
-        public static IReadOnlyCollection<int> QueryContainedPackagesId(IReadOnlyCollection<PackageWrapper> packages, int containerId)
+        public static IReadOnlyCollection<int> QueryContainedPackagesId(IReadOnlyCollection<SlimPackage> packages, int containerId)
         {
             var nestedPackageIds = new List<int>();
 

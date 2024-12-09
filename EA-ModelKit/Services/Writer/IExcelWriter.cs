@@ -1,5 +1,5 @@
-﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// -------------------------------------------------------------------------------------------------
+// <copyright file="IExcelWriter.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,24 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Services.Writer
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
-    using EA;
+    using EAModelKit.Model.Export;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// The <see cref="IExcelWriter" /> provides writting features to Excel format
     /// </summary>
-    internal interface ISelectionService
+    internal interface IExcelWriter
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Writes the content of the dictionary into an Excel file, at the given <paramref name="filePath" /> location
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        /// <param name="exportableObjectsContent">The Dictionary that contains all information that should be exported.</param>
+        /// <param name="filePath">The export file path</param>
+        /// <returns>A <see cref="Task" /></returns>
+        Task WriteAsync(IReadOnlyDictionary<string, IReadOnlyList<ExportableObject>> exportableObjectsContent, string filePath);
     }
 }

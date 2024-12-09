@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="GenericExport.xaml.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,23 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Views.Export
 {
-    using System.Collections.Generic;
-
-    using EA;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Windows;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// Interact(ion log for GenericExport.xaml
     /// </summary>
-    internal interface ISelectionService
+    [ExcludeFromCodeCoverage]
+    public partial class GenericExport
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Initializes a new instance of <see cref="GenericExport" />
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        public GenericExport()
+        {
+            this.InitializeComponent();
+        }
     }
 }

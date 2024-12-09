@@ -33,7 +33,7 @@ namespace EAModelKit.Services.Version
         /// </summary>
         public VersionService()
         {
-            this.Version = Assembly.GetExecutingAssembly().GetName().Version;
+            this.Version = typeof(VersionService).Assembly.GetName().Version;
         }
 
         /// <summary>

@@ -1,5 +1,5 @@
-﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// -------------------------------------------------------------------------------------------------
+// <copyright file="IGenericExporterService.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,26 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Services.Exporter
 {
     using System.Collections.Generic;
 
     using EA;
 
+    using EAModelKit.Model.Export;
+
+    using Task = System.Threading.Tasks.Task;
+
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// The <see cref="IGenericExporterService" /> provides <see cref="Element" /> export feature
     /// </summary>
-    internal interface ISelectionService
+    internal interface IGenericExporterService
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Exports <see cref="Element"/> data based on <see cref="GenericExportConfiguration"/> to a specific file 
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        /// <param name="filePath">The path to the output file to be used</param>
+        /// <param name="elementsConfigurations">The colleciton of <see cref="GenericExportConfiguration"/> that defines export configuration</param>
+        Task ExportElementsAsync(string filePath, IReadOnlyList<GenericExportConfiguration> elementsConfigurations);
     }
 }

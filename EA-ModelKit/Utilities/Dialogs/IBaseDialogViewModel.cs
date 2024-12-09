@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="ISelectionService.cs" company="Starion Group S.A.">
+// <copyright file="IBaseDialogViewModel.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,23 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Services.Selection
+namespace EAModelKit.Utilities.Dialogs
 {
-    using System.Collections.Generic;
-
-    using EA;
+    using System;
 
     /// <summary>
-    /// The <see cref="ISelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
+    /// The <see cref="IBaseDialogViewModel" /> provides base behavior and properties definition for any viewmodel linked to a dialog
     /// </summary>
-    internal interface ISelectionService
+    internal interface IBaseDialogViewModel: IDisposable, ICloseableWindowViewModel
     {
         /// <summary>
-        /// Queries all <see cref="Element" /> that are part of the current selection.
+        /// Asserts that the current viewModel is busy with a task
         /// </summary>
-        /// <param name="repository">The <see cref="Repository"/></param>
-        /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyList<Element> QuerySelectedElements(Repository repository);
+        bool IsBusy { get; set; }
+
+        /// <summary>
+        /// Asserts that the associated view should be the topmost or not
+        /// </summary>
+        bool IsTopMost { get; set; }
     }
 }

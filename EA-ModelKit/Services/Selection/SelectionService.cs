@@ -28,7 +28,8 @@ namespace EAModelKit.Services.Selection
 
     using EA;
 
-    using EAModelKit.Model.Wrappers;
+    using EAModelKit.Model.Slims;
+    using EAModelKit.Utilities;
 
     /// <summary>
     /// The <see cref="SelectionService" /> provides information about Element that are currently selected or contained by a selected package, supporting nesting.
@@ -40,7 +41,7 @@ namespace EAModelKit.Services.Selection
         /// </summary>
         /// <param name="repository">The <see cref="Repository" /></param>
         /// <returns>A read-only collection of selected <see cref="Element" />s</returns>
-        public IReadOnlyCollection<Element> QuerySelectedElements(Repository repository)
+        public IReadOnlyList<Element> QuerySelectedElements(Repository repository)
         {
             var selectedPackagesId = QueryCurrentlySelectedPackagesId(repository);
 
@@ -54,7 +55,7 @@ namespace EAModelKit.Services.Selection
 
             foreach (var selectedPackageId in selectedPackagesId)
             {
-                allSelectedPackages.AddRange(PackageWrapper.QueryContainedPackagesId(existingPackages, selectedPackageId));
+                allSelectedPackages.AddRange(SlimPackage.QueryContainedPackagesId(existingPackages, selectedPackageId));
             }
 
             var sqlQuery = $"SELECT Object_ID from t_object WHERE Package_ID in ({string.Join(",", allSelectedPackages)}) AND Object_Type != 'Package'";
@@ -63,7 +64,7 @@ namespace EAModelKit.Services.Selection
             var xElement = XElement.Parse(sqlResponse);
             var xRows = xElement.Descendants("Row");
 
-            var selectedElementsId = xRows.Select(r => int.Parse(r.Elements().First(MatchElementByName("Object_ID")).Value,
+            var selectedElementsId = xRows.Select(r => int.Parse(r.Elements().First(XElementHelper.MatchElementByName("Object_ID")).Value,
                 CultureInfo.InvariantCulture)).Distinct().ToList();
 
             return selectedElementsId.Count == 0 ? [] : repository.GetElementSet(string.Join(",", selectedElementsId), 0).OfType<Element>().ToList();
@@ -92,21 +93,11 @@ namespace EAModelKit.Services.Selection
         }
 
         /// <summary>
-        /// Function that verifies that an <see cref="XElement" /> matches a name
-        /// </summary>
-        /// <param name="matchingName">The name that have to match</param>
-        /// <returns>A <see cref="Func{TResult}" /></returns>
-        private static Func<XElement, bool> MatchElementByName(string matchingName)
-        {
-            return x => string.Equals(x.Name.LocalName, matchingName, StringComparison.InvariantCultureIgnoreCase);
-        }
-
-        /// <summary>
-        /// Queries all <see cref="PackageWrapper" /> that exists inside the current EA project
+        /// Queries all <see cref="SlimPackage" /> that exists inside the current EA project
         /// </summary>
         /// <param name="repository">The <see cref="IDualRepository" /></param>
-        /// <returns>A read-only collection of <see cref="PackageWrapper" />, for all Package that exists inside the current EA project</returns>
-        private static IReadOnlyCollection<PackageWrapper> QueriesAllExistingPackages(IDualRepository repository)
+        /// <returns>A read-only collection of <see cref="SlimPackage" />, for all Package that exists inside the current EA project</returns>
+        private static IReadOnlyCollection<SlimPackage> QueriesAllExistingPackages(IDualRepository repository)
         {
             const string sqlQuery = "SELECT package.Package_Id as PACKAGE_ID, package.Parent_Id as PARENT_ID from t_package package";
             var sqlResponse = repository.SQLQuery(sqlQuery);
@@ -115,10 +106,10 @@ namespace EAModelKit.Services.Selection
 
             return
             [
-                ..xRows.Select(r => new PackageWrapper
+                ..xRows.Select(r => new SlimPackage
                 {
-                    PackageId = int.Parse(r.Elements().First(MatchElementByName("PACKAGE_ID")).Value, CultureInfo.InvariantCulture),
-                    ContainerId = int.Parse(r.Elements().First(MatchElementByName("PARENT_ID")).Value, CultureInfo.InvariantCulture)
+                    PackageId = int.Parse(r.Elements().First(XElementHelper.MatchElementByName("PACKAGE_ID")).Value, CultureInfo.InvariantCulture),
+                    ContainerId = int.Parse(r.Elements().First(XElementHelper.MatchElementByName("PARENT_ID")).Value, CultureInfo.InvariantCulture)
                 })
             ];
         }

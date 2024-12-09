@@ -24,10 +24,15 @@ namespace EAModelKit.Extensions
 
     using AutofacSerilogIntegration;
 
+    using EAModelKit.Services.Cache;
     using EAModelKit.Services.Dispatcher;
+    using EAModelKit.Services.Exporter;
     using EAModelKit.Services.Logger;
     using EAModelKit.Services.Selection;
     using EAModelKit.Services.Version;
+    using EAModelKit.Services.ViewBuilder;
+    using EAModelKit.Services.Writer;
+    using EAModelKit.ViewModels.Exporter;
 
     using Microsoft.Extensions.Logging;
 
@@ -52,6 +57,10 @@ namespace EAModelKit.Extensions
             builder.RegisterType<VersionService>().As<IVersionService>().SingleInstance();
             builder.RegisterType<SelectionService>().As<ISelectionService>().SingleInstance();
             builder.RegisterType<DispatcherService>().As<IDispatcherService>().SingleInstance();
+            builder.RegisterType<ViewBuilderService>().As<IViewBuilderService>().SingleInstance();
+            builder.RegisterType<CacheService>().As<ICacheService>().SingleInstance();
+            builder.RegisterType<ExcelWriter>().As<IExcelWriter>();
+            builder.RegisterType<GenericExporterService>().As<IGenericExporterService>();
         }
 
         /// <summary>
@@ -60,6 +69,7 @@ namespace EAModelKit.Extensions
         /// <param name="builder">The <see cref="ContainerBuilder" /></param>
         public static void RegisterViewModels(this ContainerBuilder builder)
         {
+            builder.RegisterType<GenericExporterViewModel>().As<IGenericExporterViewModel>();
         }
     }
 }
