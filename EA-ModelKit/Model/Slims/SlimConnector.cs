@@ -30,7 +30,7 @@ namespace EAModelKit.Model.Slims
     /// <summary>
     /// Slim class for <see cref="Connector" />
     /// </summary>
-    public class SlimConnector
+    internal class SlimConnector
     {
         /// <summary>
         /// Initializes a new instance of <see cref="SlimConnector" />
