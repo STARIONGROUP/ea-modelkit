@@ -37,11 +37,18 @@ namespace EAModelKit.Model.Export
         /// </summary>
         /// <param name="exportableElements">The collection of <see cref="SlimElement" /> that should be exported</param>
         /// <param name="exportableTaggedValues">The collection of TaggedValue names that should be exported</param>
-        public GenericExportConfiguration(IReadOnlyList<SlimElement> exportableElements, IReadOnlyList<string> exportableTaggedValues)
+        /// <param name="exportableConnectors">The collection of Connector that should be exported</param>
+        public GenericExportConfiguration(IReadOnlyList<SlimElement> exportableElements, IReadOnlyList<string> exportableTaggedValues, IReadOnlyList<string> exportableConnectors)
         {
             this.ExportableElements = exportableElements;
             this.ExportableTaggedValues = exportableTaggedValues;
+            this.ExportableConnectors = exportableConnectors;
         }
+
+        /// <summary>
+        /// Gets the read-only collection of Connectors that should be exported
+        /// </summary>
+        public IReadOnlyList<string> ExportableConnectors { get; }
 
         /// <summary>
         /// Gets the read-only collection of <see cref="Element" /> that have to be exported

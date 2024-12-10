@@ -36,9 +36,9 @@ namespace EAModelKit.ViewModels.Exporter
     internal class GenericExportSetupViewModel : ReactiveObject, IGenericExportSetupViewModel
     {
         /// <summary>
-        /// Backing field for <see cref="AvailableTaggedValuesForExport" />
+        /// Backing field for <see cref="SelectedConnectorsForExport" />
         /// </summary>
-        private IEnumerable<string> availableTaggedValuesForExport;
+        private IEnumerable<string> selectedConnectorsForExport;
 
         /// <summary>
         /// Backing field for <see cref="SelectedTaggedValuesForExport" />
@@ -73,9 +73,34 @@ namespace EAModelKit.ViewModels.Exporter
                 .Distinct()
                 .OrderBy(x => x);
 
+            this.AvailableConnectorsForExport = elements
+                .SelectMany(x => x.Connectors.Keys)
+                .Distinct()
+                .OrderBy(x => x);
+
             this.SelectedTaggedValuesForExport = [..this.AvailableTaggedValuesForExport];
+            this.SelectedConnectorsForExport = [..this.AvailableConnectorsForExport];
             this.ExportableElements = elements;
         }
+
+        /// <summary>
+        /// Gets the collection of available Connectors kind that could be exported
+        /// </summary>
+        public IEnumerable<string> AvailableConnectorsForExport { get; }
+
+        /// <summary>
+        /// Gets or sets the collection of selected Connectors kind that have to be exported
+        /// </summary>
+        public IEnumerable<string> SelectedConnectorsForExport
+        {
+            get => this.selectedConnectorsForExport;
+            set => this.RaiseAndSetIfChanged(ref this.selectedConnectorsForExport, value);
+        }
+
+        /// <summary>
+        /// Asserts that any Connector are available for export
+        /// </summary>
+        public bool HaveAnyConnectors => this.AvailableConnectorsForExport.Any();
 
         /// <summary>
         /// Gets the collection of exportable <see cref="SlimElement" /> tied to this setup
@@ -111,12 +136,8 @@ namespace EAModelKit.ViewModels.Exporter
         }
 
         /// <summary>
-        /// Gets or sets the collection of available TaggedValues name that could be exported
+        /// Gets the collection of available TaggedValues name that could be exported
         /// </summary>
-        public IEnumerable<string> AvailableTaggedValuesForExport
-        {
-            get => this.availableTaggedValuesForExport;
-            set => this.RaiseAndSetIfChanged(ref this.availableTaggedValuesForExport, value);
-        }
+        public IEnumerable<string> AvailableTaggedValuesForExport { get; }
     }
 }

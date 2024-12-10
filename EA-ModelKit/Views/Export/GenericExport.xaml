@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:EAModelKit.Views.Export"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:behaviors="clr-namespace:EAModelKit.Behaviors"
@@ -79,6 +78,7 @@
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          Margin="10 0 0 0" Width="Auto" 
                                          MaxWidth="500"
+                                         
                                          ShowBorder="False"
                                          IsEnabled="{Binding ShouldBeExported, Mode=OneWay}">
                             <dxe:ListBoxEdit.StyleSettings >
@@ -89,6 +89,22 @@
                                     <UniformGrid Columns="3"/>
                                 </ItemsPanelTemplate>
                             </dxe:ListBoxEdit.ItemsPanel>
+                        </dxe:ListBoxEdit>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding HaveAnyConnectors, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 0 0">
+                        <TextBlock  Text="Select Connectors to export:"  VerticalAlignment="Center" />
+                        <dxe:ListBoxEdit ItemsSource="{Binding AvailableConnectorsForExport}"
+                                         SelectionMode="Multiple" 
+                                         EditValue="{Binding SelectedConnectorsForExport, 
+                                             Converter={StaticResource StringCollectionConverter},
+                                             UpdateSourceTrigger=PropertyChanged}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         Margin="10 0 0 0" Width="Auto" 
+                                         ShowBorder="False"
+                                         IsEnabled="{Binding ShouldBeExported, Mode=OneWay}">
+                            <dxe:ListBoxEdit.StyleSettings >
+                                <dxe:CheckedListBoxEditStyleSettings />
+                            </dxe:ListBoxEdit.StyleSettings>
                         </dxe:ListBoxEdit>
                     </StackPanel>
                 </StackPanel>

@@ -50,5 +50,12 @@ namespace EAModelKit.Services.Cache
         /// <param name="elementId">The ID of the <see cref="Element" /> container</param>
         /// <returns>All contained <see cref="SlimTaggedValue" /></returns>
         IReadOnlyList<SlimTaggedValue> GetTaggedValues(int elementId);
+
+        /// <summary>
+        /// Gets all <see cref="SlimConnector" /> linked to an <see cref="Element" />,
+        /// </summary>
+        /// <param name="elementId">The id of the <see cref="Element" /></param>
+        /// <returns>A collection of <see cref="SlimConnector" /></returns>
+        IReadOnlyList<SlimConnector> GetAssociatedConnectors(int elementId);
     }
 }

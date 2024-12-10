@@ -48,7 +48,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
         private Mock<IViewBuilderService> builderService;
         private Mock<IGenericExporterService> exporterService;
         private List<Element> elements;
-        private  Mock<ICloseWindowBehavior> closeWindowBehavior;
+        private Mock<ICloseWindowBehavior> closeWindowBehavior;
         
         [SetUp]
         public void Setup()
@@ -98,9 +98,20 @@ namespace EAModelKit.Tests.ViewModels.Exporter
                     Name = "123"
                 }
             };
+
+            var connectors = new List<SlimConnector>
+            {
+                CreateNewSlimConnector("Association", "implements", this.elements[0], this.elements[1]),
+                CreateNewSlimConnector("Association", "", this.elements[2], this.elements[3]),
+            };
             
             this.cacheService.Setup(x => x.GetTaggedValues(It.IsAny<int[]>()))
                 .Returns(taggedValues);
+
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[0].ElementID)).Returns([connectors[0]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[1].ElementID)).Returns([connectors[0]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[2].ElementID)).Returns([connectors[1]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[3].ElementID)).Returns([connectors[1]]);
         }
 
         [Test]
@@ -185,7 +196,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             this.exporterViewModel.ExportSetups.Items.ForEach(x => x.ShouldBeExported = false);
             
             Assert.That(this.exporterViewModel.CanProceed, Is.False);
-            this.exporterViewModel.ExportSetups.Items.First().ShouldBeExported = true;
+            this.exporterViewModel.ExportSetups.Items[0].ShouldBeExported = true;
             Assert.That(this.exporterViewModel.CanProceed, Is.True);
         }
 
@@ -225,6 +236,16 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             element.Setup(x => x.Stereotype).Returns(stereotype);
             
             return element.Object;
+        }
+
+        private static SlimConnector CreateNewSlimConnector(string connectorType, string connectorStereotype, Element source, Element target)
+        {
+            var connector = new Mock<Connector>();
+            connector.Setup(x => x.Stereotype).Returns(connectorStereotype);
+            connector.Setup(x => x.Type).Returns(connectorType);
+            connector.Setup(x => x.ClientID).Returns(source.ElementID);
+            connector.Setup(x => x.SupplierID).Returns(target.ElementID);
+            return new SlimConnector(connector.Object, source, target);
         }
     }
 }

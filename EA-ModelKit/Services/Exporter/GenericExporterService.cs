@@ -71,7 +71,7 @@ namespace EAModelKit.Services.Exporter
             foreach (var elementsConfiguration in elementsConfigurations)
             {
                 exportableObjects[elementsConfiguration.ExportableElements[0].ElementKind] = elementsConfiguration.ExportableElements
-                    .Select(x => new ExportableElement(x, elementsConfiguration.ExportableTaggedValues))
+                    .Select(x => new ExportableElement(x, elementsConfiguration.ExportableTaggedValues, elementsConfiguration.ExportableConnectors))
                     .ToList();
             }
 

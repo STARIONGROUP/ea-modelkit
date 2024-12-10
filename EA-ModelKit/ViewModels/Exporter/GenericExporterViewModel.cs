@@ -143,7 +143,7 @@ namespace EAModelKit.ViewModels.Exporter
 
             var slimElements = elements.Select(x => new SlimElement(x, taggedValues.TryGetValue(x.ElementID, out var existingTaggedValues)
                 ? existingTaggedValues
-                : []));
+                : [], this.cacheService.GetAssociatedConnectors(x.ElementID)));
 
             this.ExportSetups.AddRange(slimElements.GroupBy(x => x.ElementKind)
                 .Select(e => new GenericExportSetupViewModel(e.ToList())));
@@ -175,7 +175,8 @@ namespace EAModelKit.ViewModels.Exporter
             try
             {
                 var exportConfiguration = this.ExportSetups.Items.Where(x => x.ShouldBeExported)
-                    .Select(x => new GenericExportConfiguration(x.ExportableElements, x.SelectedTaggedValuesForExport.ToList()));
+                    .Select(x => new GenericExportConfiguration(x.ExportableElements, 
+                        [..x.SelectedTaggedValuesForExport], [..x.SelectedConnectorsForExport]));
                 
                 await this.exporterService.ExportElementsAsync(this.selectedFilePath, [..exportConfiguration]);
                 this.CloseWindowBehavior.Close();
