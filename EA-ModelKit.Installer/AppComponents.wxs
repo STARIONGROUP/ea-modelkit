@@ -1,0 +1,404 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Fragment>
+    <ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+      <!--Following component should be completed if an ActiveX panel is added. 
+          Otherwise, only version of the DLL have to be updated-->
+      <Component>
+        <File Id="fil8257E7CE93244580BC20875135E9F308" Source="EAModelKit.dll"/>
+        <Class Id="{8257E7CE-9324-4580-BC20-875135E9F308}" Context="InprocServer32" Description="EAModelKit.App"
+               ThreadingModel="both" ForeignServer="mscoree.dll">
+          <ProgId Id="EAModelKit.App" Description="EAModelKit.App" />
+        </Class>
+
+        <RegistryValue Root="HKCR"
+                         Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\Implemented Categories\{B0853751-3A84-434A-AEF2-385C21172A58}"
+                         Value="" Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32\1.0.0"
+                         Name="Class" Value="EAModelKit.App" Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32\1.0.0"
+                         Name="Assembly"
+                         Value="EAModelKit, Version=1.0.0, Culture=neutral, PublicKeyToken=null"
+                         Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32\1.0.0"
+                         Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32\1.0.0"
+                         Name="CodeBase" Value="file:///[#fil8257E7CE93244580BC20875135E9F308]" Type="string"
+                         Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32"
+                         Name="Class" Value="EAModelKit.App" Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32"
+                         Name="Assembly"
+                         Value="EAModelKit, Version=1.0.0, Culture=neutral, PublicKeyToken=null"
+                         Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32"
+                         Name="RuntimeVersion" Value="v4.0.30319" Type="string" Action="write" />
+          <RegistryValue Root="HKCR" Key="CLSID\{8257E7CE-9324-4580-BC20-875135E9F308}\InprocServer32"
+                         Name="CodeBase" Value="file:///[#fil8257E7CE93244580BC20875135E9F308]" Type="string"
+                         Action="write" />
+      </Component>
+      
+      <!--Following Components are generated via the MSIHelper.sh, to be updated in case of new references-->
+      <Component>
+        <File Source="Autofac.dll" />
+      </Component>
+      <Component>
+        <File Source="AutofacSerilogIntegration.dll" />
+      </Component>
+      <Component>
+        <File Source="ClosedXML.dll" />
+      </Component>
+      <Component>
+        <File Source="ClosedXML.Parser.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Charts.Designer.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Charts.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.CodeParser.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.DataAccess.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Data.Desktop.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Data.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.DataVisualization.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Diagram.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Dialogs.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Drawing.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Images.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Map.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Mvvm.v24.1.DataModel.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Mvvm.v24.1.DataModel.EFCore.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Mvvm.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Mvvm.v24.1.ViewModel.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Office.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Pdf.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Pdf.v24.1.Drawing.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.PivotGrid.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Printing.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.RichEdit.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.RichEdit.v24.1.Export.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Sparkline.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.SpellChecker.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Spreadsheet.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.TreeMap.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Utils.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Accordion.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Carousel.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Charts.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.CodeView.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Controls.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Core.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Core.v24.1.Extensions.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.DataAccess.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Diagram.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Dialogs.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Docking.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.DocumentViewer.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.ExpressionEditor.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Gantt.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Gauges.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Grid.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Grid.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Grid.v24.1.Extensions.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.LayoutControl.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Layout.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Map.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.NavBar.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Office.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.PdfViewer.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.PivotGrid.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Printing.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.PrismAdapters.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.PropertyGrid.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.ReportDesigner.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Ribbon.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.RichEdit.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Scheduling.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.SpellChecker.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Spreadsheet.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.Themes.Office2019Colorful.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.TreeMap.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpf.TypedStyles.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.Xpo.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraBars.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraCharts.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraEditors.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraGauges.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraGrid.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraLayout.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraPrinting.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraReports.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraScheduler.v24.1.Core.Desktop.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraScheduler.v24.1.Core.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraScheduler.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraScheduler.v24.1.Reporting.dll" />
+      </Component>
+      <Component>
+        <File Source="DevExpress.XtraTreeList.v24.1.dll" />
+      </Component>
+      <Component>
+        <File Source="DocumentFormat.OpenXml.dll" />
+      </Component>
+      <Component>
+        <File Source="DocumentFormat.OpenXml.Framework.dll" />
+      </Component>
+      <Component>
+        <File Source="DynamicData.dll" />
+      </Component>
+      <Component>
+        <File Source="ExcelNumberFormat.dll" />
+      </Component>
+      <Component>
+        <File Source="Interop.EA.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Bcl.AsyncInterfaces.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Bcl.HashCode.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Configuration.Abstractions.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Configuration.Binder.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.DependencyInjection.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.DependencyModel.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Logging.Abstractions.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Logging.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Options.dll" />
+      </Component>
+      <Component>
+        <File Source="Microsoft.Extensions.Primitives.dll" />
+      </Component>
+      <Component>
+        <File Source="RBush.dll" />
+      </Component>
+      <Component>
+        <File Source="ReactiveUI.dll" />
+      </Component>
+      <Component>
+        <File Source="ReactiveUI.Wpf.dll" />
+      </Component>
+      <Component>
+        <File Source="Serilog.dll" />
+      </Component>
+      <Component>
+        <File Source="Serilog.Extensions.Logging.dll" />
+      </Component>
+      <Component>
+        <File Source="Serilog.Settings.Configuration.dll" />
+      </Component>
+      <Component>
+        <File Source="Serilog.Sinks.File.dll" />
+      </Component>
+      <Component>
+        <File Source="SixLabors.Fonts.dll" />
+      </Component>
+      <Component>
+        <File Source="Splat.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Buffers.dll" />
+      </Component>
+      <Component>
+        <File Source="System.ComponentModel.Annotations.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Diagnostics.DiagnosticSource.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Memory.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Numerics.Vectors.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Reactive.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Runtime.CompilerServices.Unsafe.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Text.Encodings.Web.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Text.Json.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Threading.Channels.dll" />
+      </Component>
+      <Component>
+        <File Source="System.Threading.Tasks.Extensions.dll" />
+      </Component>
+      <Component>
+        <File Source="System.ValueTuple.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
