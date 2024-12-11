@@ -121,7 +121,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             {
                 Assert.That(this.exporterViewModel.CanProceed, Is.False);
                 Assert.That(this.exporterViewModel.SelectedFilePath, Is.Null);
-                Assert.That(this.exporterViewModel.ExportSetups.Items, Is.Empty);
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items, Is.Empty);
                 Assert.That(this.exporterViewModel.OutputFileCommand, Is.Null);
                 Assert.That(this.exporterViewModel.ExportCommand, Is.Null);
             });
@@ -141,22 +141,22 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             Assert.Multiple(() =>
             {
                 this.cacheService.Verify(x => x.GetTaggedValues(It.IsAny<int[]>()), Times.Once);
-                Assert.That(this.exporterViewModel.ExportSetups.Items, Is.Not.Empty);
-                Assert.That(this.exporterViewModel.ExportSetups, Has.Count.EqualTo(3));
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items, Is.Not.Empty);
+                Assert.That(this.exporterViewModel.AvailableExportSetups, Has.Count.EqualTo(3));
                 Assert.That(this.exporterViewModel.OutputFileCommand, Is.Not.Null);
                 Assert.That(this.exporterViewModel.ExportCommand, Is.Not.Null);
-                Assert.That(this.exporterViewModel.ExportSetups.Items.All(x => x.ShouldBeExported), Is.True);
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.All(x => x.ShouldBeExported), Is.True);
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Requirement").AvailableTaggedValuesForExport
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Requirement").AvailableTaggedValuesForExport
                     .Count(), Is.EqualTo(2));
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Function").AvailableTaggedValuesForExport
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Function").AvailableTaggedValuesForExport
                     .Count(), Is.EqualTo(2));
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Product").HaveAnyTaggedValues,
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Product").HaveAnyTaggedValues,
                     Is.False);
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.All(x => x.AvailableTaggedValuesForExport.Count()
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.All(x => x.AvailableTaggedValuesForExport.Count()
                 == x.SelectedTaggedValuesForExport.Count()), Is.True);
             });
         }
@@ -193,10 +193,10 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             
             this.exporterViewModel.OutputFileCommand.Execute().Subscribe();
             Assert.That(this.exporterViewModel.CanProceed, Is.True);
-            this.exporterViewModel.ExportSetups.Items.ForEach(x => x.ShouldBeExported = false);
+            this.exporterViewModel.AvailableExportSetups.Items.ForEach(x => x.ShouldBeExported = false);
             
             Assert.That(this.exporterViewModel.CanProceed, Is.False);
-            this.exporterViewModel.ExportSetups.Items[0].ShouldBeExported = true;
+            this.exporterViewModel.AvailableExportSetups.Items[0].ShouldBeExported = true;
             Assert.That(this.exporterViewModel.CanProceed, Is.True);
         }
 

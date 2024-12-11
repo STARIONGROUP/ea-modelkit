@@ -39,7 +39,7 @@ namespace EAModelKit.ViewModels.Exporter
         /// <summary>
         /// Gets the <see cref="SourceList{T}" /> of <see cref="IGenericExportSetupViewModel" />
         /// </summary>
-        SourceList<IGenericExportSetupViewModel> ExportSetups { get; }
+        SourceList<IGenericExportSetupViewModel> AvailableExportSetups { get; }
 
         /// <summary>
         /// Gets the path to the file that should be use for export
@@ -60,6 +60,16 @@ namespace EAModelKit.ViewModels.Exporter
         /// Gets the <see cref="ReactiveCommand{TParam,TResult}" /> that allows the export of <see cref="Element" /> data
         /// </summary>
         ReactiveCommand<Unit, Unit> ExportCommand { get; }
+
+        /// <summary>
+        /// Gets or sets the currently selected <see cref="IGenericExportSetupViewModel"/>
+        /// </summary>
+        IGenericExportSetupViewModel SelectedExportSetup { get; set; }
+
+        /// <summary>
+        /// Asserts that the an <see cref="IGenericExportSetupViewModel" /> is selected or not
+        /// </summary>
+        bool HaveSelectedExportSetup { get; }
 
         /// <summary>
         /// Initialies properties of the ViewModel

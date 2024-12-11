@@ -67,6 +67,7 @@ namespace EAModelKit.ViewModels.Exporter
             }
 
             this.ElementKind = elements[0].ElementKind;
+            this.ElementType = elements[0].ElementType;
 
             this.AvailableTaggedValuesForExport = elements
                 .SelectMany(x => x.TaggedValues.Keys)
@@ -82,6 +83,11 @@ namespace EAModelKit.ViewModels.Exporter
             this.SelectedConnectorsForExport = [..this.AvailableConnectorsForExport];
             this.ExportableElements = elements;
         }
+
+        /// <summary>
+        /// Gets the <see cref="Element" /> Type
+        /// </summary>
+        public string ElementType { get; }
 
         /// <summary>
         /// Gets the collection of available Connectors kind that could be exported

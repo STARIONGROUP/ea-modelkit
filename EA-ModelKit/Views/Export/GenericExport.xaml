@@ -6,14 +6,15 @@
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
         xmlns:behaviors="clr-namespace:EAModelKit.Behaviors"
-        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:export="clr-namespace:EAModelKit.Views.Export"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:converters="clr-namespace:EAModelKit.Converters"
         mc:Ignorable="d"
         Title="Generic Export"
         MinHeight="100"
         Height="Auto"
+        MaxWidth="1000"
         SizeToContent="Height"
-        MaxWidth="600"
         Topmost="{Binding IsTopMost}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
@@ -24,10 +25,7 @@
         <behaviors:CloseWindowBehavior />
     </dxmvvm:Interaction.Behaviors>
     <dx:ThemedWindow.Resources>
-        <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-            <converters:StringCollectionConverter x:Key="StringCollectionConverter" />
-        </ResourceDictionary>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </dx:ThemedWindow.Resources>
     <dx:LoadingDecorator BorderEffect="Default" BorderEffectColor="Blue" IsSplashScreenShown="{Binding IsBusy}"
                          OwnerLock="LoadingContent">
@@ -44,91 +42,48 @@
             </Style>
         </dx:LoadingDecorator.SplashScreenWindowStyle>
     <Grid>
-        <Grid.Resources>
-            <Style TargetType="GroupBox">
-                <Setter Property="Margin" Value="4 2"/>
-                <Setter Property="HeaderTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontWeight="Medium"/>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            
-            <Style x:Key="TabItemStyle" TargetType="dx:DXTabItem">
-                <Setter Property="Header" Value="{Binding ElementKind}"/>
-                <Setter Property="Content" Value="{Binding}"/>
-            </Style>
-            <DataTemplate x:Key="TabItemHeaderTemplate">
-                <TextBlock Text="{Binding}" FontWeight="Medium"/>
-            </DataTemplate>
-            <DataTemplate x:Key="TabItemContentTemplate">
-                <StackPanel>
-                    <CheckBox HorizontalAlignment="Left"  Margin="0 10 0 0" IsChecked="{Binding ShouldBeExported, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FlowDirection="RightToLeft">
-                        <TextBlock FlowDirection="LeftToRight" Text="Exportable:"/>
-                    </CheckBox>
-                    <StackPanel Visibility="{Binding HaveAnyTaggedValues, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 0 0">
-                        <TextBlock  Text="Select Tagged Values to export:"  VerticalAlignment="Center" />
-                        <dxe:ListBoxEdit ItemsSource="{Binding AvailableTaggedValuesForExport}"
-                                         SelectionMode="Multiple" 
-                                         EditValue="{Binding SelectedTaggedValuesForExport, 
-                                             Converter={StaticResource StringCollectionConverter},
-                                             UpdateSourceTrigger=PropertyChanged}"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         Margin="10 0 0 0" Width="Auto" 
-                                         MaxWidth="500"
-                                         
-                                         ShowBorder="False"
-                                         IsEnabled="{Binding ShouldBeExported, Mode=OneWay}">
-                            <dxe:ListBoxEdit.StyleSettings >
-                                <dxe:CheckedListBoxEditStyleSettings />
-                            </dxe:ListBoxEdit.StyleSettings>
-                            <dxe:ListBoxEdit.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="3"/>
-                                </ItemsPanelTemplate>
-                            </dxe:ListBoxEdit.ItemsPanel>
-                        </dxe:ListBoxEdit>
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding HaveAnyConnectors, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 10 0 0">
-                        <TextBlock  Text="Select Connectors to export:"  VerticalAlignment="Center" />
-                        <dxe:ListBoxEdit ItemsSource="{Binding AvailableConnectorsForExport}"
-                                         SelectionMode="Multiple" 
-                                         EditValue="{Binding SelectedConnectorsForExport, 
-                                             Converter={StaticResource StringCollectionConverter},
-                                             UpdateSourceTrigger=PropertyChanged}"
-                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                         Margin="10 0 0 0" Width="Auto" 
-                                         ShowBorder="False"
-                                         IsEnabled="{Binding ShouldBeExported, Mode=OneWay}">
-                            <dxe:ListBoxEdit.StyleSettings >
-                                <dxe:CheckedListBoxEditStyleSettings />
-                            </dxe:ListBoxEdit.StyleSettings>
-                        </dxe:ListBoxEdit>
-                    </StackPanel>
-                </StackPanel>
-            </DataTemplate>
-        </Grid.Resources>
-        <StackPanel Margin="5">
-            <TextBlock>Selected Output File:</TextBlock>
-            <DockPanel Margin="0 5 0 0">
-                <TextBlock Text="{Binding SelectedFilePath}" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="400"/>
-                <Button Width="150" Height="30" Content="Select Export File" Command="{Binding OutputFileCommand}"
-                        HorizontalAlignment="Right"
-                        Margin="5 0 0 0" ToolTip="Select the output file" />
+        <StackPanel Margin="5" Orientation="Vertical">
+            <DockPanel Margin="0 0 0 10">
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding SelectedFilePath, StringFormat=Selected Output File: {0}}" />
+                <DockPanel DockPanel.Dock="Right">
+                    <Button Width="120" Height="30" Content="Export" Command="{Binding ExportCommand}"
+                            HorizontalAlignment="Right"
+                            Margin="5 0 0 0" ToolTip="Export all Element based on selection" />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Right">
+                    <TextBlock Text="" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="400"/>
+                    <Button Width="120" Height="30" Content="Select Export File" Command="{Binding OutputFileCommand}"
+                            HorizontalAlignment="Right"
+                            Margin="5 0 0 0" ToolTip="Select the output file" />
+                </DockPanel>
             </DockPanel>
-            <DockPanel Margin="0 5 0 5">
-                <Button Width="150" Height="30" Content="Export" Command="{Binding ExportCommand}"
-                        HorizontalAlignment="Right"
-                        Margin="5 0 0 0" ToolTip="Export all Element based on selection" />
-            </DockPanel>
-            <dx:DXTabControl 
-                ItemsSource="{Binding ExportSetups.Items}" 
-                ItemContainerStyle="{StaticResource TabItemStyle}"
-                ItemHeaderTemplate="{StaticResource TabItemHeaderTemplate}"
-                ItemTemplate="{StaticResource TabItemContentTemplate}">
-            </dx:DXTabControl>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Border>
+                    <dxg:GridControl 
+                        Height="350"
+                        ItemsSource="{Binding AvailableExportSetups.Items}" 
+                        SelectedItem="{Binding SelectedExportSetup}">
+                        <dxg:GridColumn FieldName="ElementType" AllowSorting="True" GroupIndex="0" />
+                        <dxg:GridColumn FieldName="ElementKind" AllowSorting="True" Width="*"/>
+                        <dxg:GridControl.View>  
+                            <dxg:TableView ShowGroupPanel="False" ShowSearchPanelMode="Always" />
+                        </dxg:GridControl.View>  
+                    </dxg:GridControl>
+                </Border>
+                <Border Grid.Column="1" Margin="10 0 0 0"
+                        Visibility="{Binding HaveSelectedExportSetup, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <export:GenericExportSetupView  DataContext="{Binding SelectedExportSetup}"/>
+                </Border>
+                <Border Grid.Column="1" Margin="10 0 0 0"
+                        Visibility="{Binding HaveSelectedExportSetup, 
+                        Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Invert}">
+                   <TextBlock Text="No data here" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
         </StackPanel>
     </Grid>
     </dx:LoadingDecorator>

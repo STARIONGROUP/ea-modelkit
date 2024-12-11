@@ -76,5 +76,10 @@ namespace EAModelKit.ViewModels.Exporter
         /// Gets or sets the collection of selected Connectors kind that have to be exported
         /// </summary>
         IEnumerable<string> SelectedConnectorsForExport { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="Element" /> Type
+        /// </summary>
+        string ElementType { get; }
     }
 }
