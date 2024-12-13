@@ -52,241 +52,241 @@
         <File Source="ClosedXML.Parser.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Charts.Designer.v24.1.dll" />
+        <File Source="DevExpress.Charts.Designer.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Charts.v24.1.Core.dll" />
+        <File Source="DevExpress.Charts.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.CodeParser.v24.1.dll" />
+        <File Source="DevExpress.CodeParser.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.DataAccess.v24.1.dll" />
+        <File Source="DevExpress.DataAccess.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Data.Desktop.v24.1.dll" />
+        <File Source="DevExpress.Data.Desktop.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Data.v24.1.dll" />
+        <File Source="DevExpress.Data.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.DataVisualization.v24.1.Core.dll" />
+        <File Source="DevExpress.DataVisualization.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Diagram.v24.1.Core.dll" />
+        <File Source="DevExpress.Diagram.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Dialogs.v24.1.Core.dll" />
+        <File Source="DevExpress.Dialogs.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Drawing.v24.1.dll" />
+        <File Source="DevExpress.Drawing.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Images.v24.1.dll" />
+        <File Source="DevExpress.Images.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Map.v24.1.Core.dll" />
+        <File Source="DevExpress.Map.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Mvvm.v24.1.DataModel.dll" />
+        <File Source="DevExpress.Mvvm.v23.2.DataModel.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Mvvm.v24.1.DataModel.EFCore.dll" />
+        <File Source="DevExpress.Mvvm.v23.2.DataModel.EFCore.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Mvvm.v24.1.dll" />
+        <File Source="DevExpress.Mvvm.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Mvvm.v24.1.ViewModel.dll" />
+        <File Source="DevExpress.Mvvm.v23.2.ViewModel.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Office.v24.1.Core.dll" />
+        <File Source="DevExpress.Office.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Pdf.v24.1.Core.dll" />
+        <File Source="DevExpress.Pdf.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Pdf.v24.1.Drawing.dll" />
+        <File Source="DevExpress.Pdf.v23.2.Drawing.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.PivotGrid.v24.1.Core.dll" />
+        <File Source="DevExpress.PivotGrid.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Printing.v24.1.Core.dll" />
+        <File Source="DevExpress.Printing.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.RichEdit.v24.1.Core.dll" />
+        <File Source="DevExpress.RichEdit.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.RichEdit.v24.1.Export.dll" />
+        <File Source="DevExpress.RichEdit.v23.2.Export.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Sparkline.v24.1.Core.dll" />
+        <File Source="DevExpress.Sparkline.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.SpellChecker.v24.1.Core.dll" />
+        <File Source="DevExpress.SpellChecker.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Spreadsheet.v24.1.Core.dll" />
+        <File Source="DevExpress.Spreadsheet.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.TreeMap.v24.1.Core.dll" />
+        <File Source="DevExpress.TreeMap.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Utils.v24.1.dll" />
+        <File Source="DevExpress.Utils.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Accordion.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Accordion.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Carousel.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Carousel.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Charts.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Charts.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.CodeView.v24.1.dll" />
+        <File Source="DevExpress.Xpf.CodeView.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Controls.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Controls.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Core.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Core.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Core.v24.1.Extensions.dll" />
+        <File Source="DevExpress.Xpf.Core.v23.2.Extensions.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.DataAccess.v24.1.dll" />
+        <File Source="DevExpress.Xpf.DataAccess.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Diagram.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Diagram.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Dialogs.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Dialogs.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Docking.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Docking.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.DocumentViewer.v24.1.Core.dll" />
+        <File Source="DevExpress.Xpf.DocumentViewer.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.ExpressionEditor.v24.1.dll" />
+        <File Source="DevExpress.Xpf.ExpressionEditor.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Gantt.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Gantt.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Gauges.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Gauges.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Grid.v24.1.Core.dll" />
+        <File Source="DevExpress.Xpf.Grid.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Grid.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Grid.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Grid.v24.1.Extensions.dll" />
+        <File Source="DevExpress.Xpf.Grid.v23.2.Extensions.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.LayoutControl.v24.1.dll" />
+        <File Source="DevExpress.Xpf.LayoutControl.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Layout.v24.1.Core.dll" />
+        <File Source="DevExpress.Xpf.Layout.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Map.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Map.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.NavBar.v24.1.dll" />
+        <File Source="DevExpress.Xpf.NavBar.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Office.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Office.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.PdfViewer.v24.1.dll" />
+        <File Source="DevExpress.Xpf.PdfViewer.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.PivotGrid.v24.1.dll" />
+        <File Source="DevExpress.Xpf.PivotGrid.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Printing.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Printing.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.PrismAdapters.v24.1.dll" />
+        <File Source="DevExpress.Xpf.PrismAdapters.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.PropertyGrid.v24.1.dll" />
+        <File Source="DevExpress.Xpf.PropertyGrid.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.ReportDesigner.v24.1.dll" />
+        <File Source="DevExpress.Xpf.ReportDesigner.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Ribbon.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Ribbon.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.RichEdit.v24.1.dll" />
+        <File Source="DevExpress.Xpf.RichEdit.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Scheduling.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Scheduling.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.SpellChecker.v24.1.dll" />
+        <File Source="DevExpress.Xpf.SpellChecker.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Spreadsheet.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Spreadsheet.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.Themes.Office2019Colorful.v24.1.dll" />
+        <File Source="DevExpress.Xpf.Themes.Office2019Colorful.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.TreeMap.v24.1.dll" />
+        <File Source="DevExpress.Xpf.TreeMap.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpf.TypedStyles.v24.1.dll" />
+        <File Source="DevExpress.Xpf.TypedStyles.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.Xpo.v24.1.dll" />
+        <File Source="DevExpress.Xpo.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraBars.v24.1.dll" />
+        <File Source="DevExpress.XtraBars.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraCharts.v24.1.dll" />
+        <File Source="DevExpress.XtraCharts.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraEditors.v24.1.dll" />
+        <File Source="DevExpress.XtraEditors.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraGauges.v24.1.Core.dll" />
+        <File Source="DevExpress.XtraGauges.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraGrid.v24.1.dll" />
+        <File Source="DevExpress.XtraGrid.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraLayout.v24.1.dll" />
+        <File Source="DevExpress.XtraLayout.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraPrinting.v24.1.dll" />
+        <File Source="DevExpress.XtraPrinting.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraReports.v24.1.dll" />
+        <File Source="DevExpress.XtraReports.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraScheduler.v24.1.Core.Desktop.dll" />
+        <File Source="DevExpress.XtraScheduler.v23.2.Core.Desktop.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraScheduler.v24.1.Core.dll" />
+        <File Source="DevExpress.XtraScheduler.v23.2.Core.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraScheduler.v24.1.dll" />
+        <File Source="DevExpress.XtraScheduler.v23.2.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraScheduler.v24.1.Reporting.dll" />
+        <File Source="DevExpress.XtraScheduler.v23.2.Reporting.dll" />
       </Component>
       <Component>
-        <File Source="DevExpress.XtraTreeList.v24.1.dll" />
+        <File Source="DevExpress.XtraTreeList.v23.2.dll" />
       </Component>
       <Component>
         <File Source="DocumentFormat.OpenXml.dll" />
