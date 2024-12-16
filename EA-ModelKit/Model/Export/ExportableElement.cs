@@ -38,16 +38,17 @@ namespace EAModelKit.Model.Export
         /// Defines the base headers for the <see cref="ExportableElement"/>
         /// </summary>
         private readonly string[] baseHeaders = ["Name", "Alias", "Notes"];
-        
+
         /// <summary>
         /// Initializes a new instance of <see cref="ExportableElement"/>
         /// </summary>
         /// <param name="element">The <see cref="SlimElement"/> that should be exported</param>
         /// <param name="taggedValuesToExport">All name of TaggeValue that have to be exported</param>
-        public ExportableElement(SlimElement element, IReadOnlyList<string> taggedValuesToExport)
+        /// <param name="connectorsToExport">All name of Connector that have to be exported</param>
+        public ExportableElement(SlimElement element, IReadOnlyList<string> taggedValuesToExport, IReadOnlyList<string> connectorsToExport)
         {
             this.KindName = element.ElementKind;
-            this.Headers = [..this.baseHeaders, ..taggedValuesToExport];
+            this.Headers = [..this.baseHeaders, ..taggedValuesToExport, ..connectorsToExport];
 
             var values = new List<string> {element.Name, element.Alias,WebUtility.HtmlDecode(element.Notes)};
 
@@ -61,6 +62,13 @@ namespace EAModelKit.Model.Export
                 this.ExportableValues[taggedValueToExport] = element.TaggedValues.TryGetValue(taggedValueToExport, out var existingValue)
                     ? string.Join(Environment.NewLine, existingValue.Select(x => x.Value))
                     : string.Empty; 
+            }
+
+            foreach (var connectorToExport in connectorsToExport)
+            {
+                this.ExportableValues[connectorToExport] = element.Connectors.TryGetValue(connectorToExport, out var existingConnectors)
+                    ? string.Join(Environment.NewLine, existingConnectors.Select(x => x.GetOppositeElementName(element.ElementId)))
+                    : string.Empty;
             }
         }
     }

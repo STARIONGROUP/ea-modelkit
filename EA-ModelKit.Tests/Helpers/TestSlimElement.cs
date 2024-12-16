@@ -36,12 +36,14 @@ namespace EAModelKit.Tests.Helpers
         /// </summary>
         /// <param name="element">The associated <see cref="Element"/></param>
         /// <param name="taggedValues">The associated collection of <see cref="SlimTaggedValue"/></param>
-        public TestSlimElement(Element element, IReadOnlyList<SlimTaggedValue> taggedValues) : base(element, taggedValues)
+        /// <param name="connectors">The associated collection of <see cref="SlimConnector"/></param>
+        public TestSlimElement(Element element, IReadOnlyCollection<SlimTaggedValue> taggedValues, IReadOnlyCollection<SlimConnector> connectors) : base(element, taggedValues, connectors)
         {
         }
 
-        public TestSlimElement(string kind, string name, string alias, string notes, IReadOnlyList<SlimTaggedValue> taggedValues):
-            this(CreateElement(kind, name, alias, notes), taggedValues)
+        public TestSlimElement(string kind, string name, string alias, string notes, IReadOnlyList<SlimTaggedValue> taggedValues, 
+            IReadOnlyCollection<SlimConnector> connectors):
+            this(CreateElement(kind, name, alias, notes), taggedValues, connectors)
         {
         }
 

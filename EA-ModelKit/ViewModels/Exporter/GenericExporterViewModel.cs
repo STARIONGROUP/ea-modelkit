@@ -54,6 +54,11 @@ namespace EAModelKit.ViewModels.Exporter
         private readonly ICacheService cacheService;
 
         /// <summary>
+        /// Gets the injected <see cref="IGenericExporterService" />
+        /// </summary>
+        private readonly IGenericExporterService exporterService;
+
+        /// <summary>
         /// The injected <see cref="IViewBuilderService" />
         /// </summary>
         private readonly IViewBuilderService viewBuilderService;
@@ -64,14 +69,19 @@ namespace EAModelKit.ViewModels.Exporter
         private bool canProceed;
 
         /// <summary>
+        /// Backing field for <see cref="HaveSelectedExportSetup" />
+        /// </summary>
+        private bool haveSelectedExportSetup;
+
+        /// <summary>
+        /// Backing field for <see cref="SelectedExportSetup" />
+        /// </summary>
+        private IGenericExportSetupViewModel selectedExportSetup;
+
+        /// <summary>
         /// Backing field for <see cref="SelectedFilePath" />
         /// </summary>
         private string selectedFilePath;
-
-        /// <summary>
-        /// Gets the injected <see cref="IGenericExporterService"/>
-        /// </summary>
-        private readonly IGenericExporterService exporterService;
 
         /// <summary>
         /// Initialize a new instance of <see cref="GenericExporterViewModel" />
@@ -79,7 +89,7 @@ namespace EAModelKit.ViewModels.Exporter
         /// <param name="loggerService">The <see cref="ILoggerService" /></param>
         /// <param name="cacheService">The injected <see cref="ICacheService" /></param>
         /// <param name="viewBuilderService">The injected <see cref="IViewBuilderService" /></param>
-        /// <param name="exporterService">The injected <see cref="IGenericExporterService"/></param>
+        /// <param name="exporterService">The injected <see cref="IGenericExporterService" /></param>
         public GenericExporterViewModel(ILoggerService loggerService, ICacheService cacheService, IViewBuilderService viewBuilderService,
             IGenericExporterService exporterService) : base(loggerService)
         {
@@ -109,7 +119,7 @@ namespace EAModelKit.ViewModels.Exporter
         /// <summary>
         /// Gets the <see cref="SourceList{T}" /> of <see cref="IGenericExportSetupViewModel" />
         /// </summary>
-        public SourceList<IGenericExportSetupViewModel> ExportSetups { get; } = new();
+        public SourceList<IGenericExportSetupViewModel> AvailableExportSetups { get; } = new();
 
         /// <summary>
         /// Gets the <see cref="ReactiveCommand{TParam,TResult}" /> that allows the selection of the output file
@@ -120,6 +130,24 @@ namespace EAModelKit.ViewModels.Exporter
         /// Gets the <see cref="ReactiveCommand{TParam,TResult}" /> that allows the export of <see cref="Element" /> data
         /// </summary>
         public ReactiveCommand<Unit, Unit> ExportCommand { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the currently selected <see cref="IGenericExportSetupViewModel" />
+        /// </summary>
+        public IGenericExportSetupViewModel SelectedExportSetup
+        {
+            get => this.selectedExportSetup;
+            set => this.RaiseAndSetIfChanged(ref this.selectedExportSetup, value);
+        }
+
+        /// <summary>
+        /// Asserts that the an <see cref="IGenericExportSetupViewModel" /> is selected or not
+        /// </summary>
+        public bool HaveSelectedExportSetup
+        {
+            get => this.haveSelectedExportSetup;
+            private set => this.RaiseAndSetIfChanged(ref this.haveSelectedExportSetup, value);
+        }
 
         /// <summary>
         /// Initialies properties of the ViewModel
@@ -143,11 +171,15 @@ namespace EAModelKit.ViewModels.Exporter
 
             var slimElements = elements.Select(x => new SlimElement(x, taggedValues.TryGetValue(x.ElementID, out var existingTaggedValues)
                 ? existingTaggedValues
-                : []));
+                : [], this.cacheService.GetAssociatedConnectors(x.ElementID)));
 
-            this.ExportSetups.AddRange(slimElements.GroupBy(x => x.ElementKind)
-                .Select(e => new GenericExportSetupViewModel(e.ToList())));
+            this.AvailableExportSetups.AddRange(slimElements
+                .GroupBy(x => x.ElementKind)
+                .Select(e => new GenericExportSetupViewModel(e.ToList()))
+                .OrderBy(x => x.ElementType)
+                .ThenBy(x => x.ElementKind));
 
+            this.SelectedExportSetup = this.AvailableExportSetups.Items[0];
             this.InitializeObservablesAndCommands();
         }
 
@@ -158,10 +190,14 @@ namespace EAModelKit.ViewModels.Exporter
         {
             this.OutputFileCommand = ReactiveCommand.Create(this.OnOutputFileSelect);
 
-            this.Disposables.Add(this.ExportSetups.Connect().WhenPropertyChanged(x => x.ShouldBeExported)
+            this.Disposables.Add(this.AvailableExportSetups.Connect().WhenPropertyChanged(x => x.ShouldBeExported)
                 .Subscribe(_ => this.ComputeCanProceed()));
 
             this.Disposables.Add(this.WhenPropertyChanged(x => x.SelectedFilePath).Subscribe(_ => this.ComputeCanProceed()));
+
+            this.Disposables.Add(this.WhenPropertyChanged(x => x.SelectedExportSetup)
+                .Subscribe(_ => this.HaveSelectedExportSetup = this.SelectedExportSetup != null));
+
             this.ExportCommand = ReactiveCommand.CreateFromTask(this.OnExportAsync, this.WhenAnyValue(x => x.CanProceed));
         }
 
@@ -174,9 +210,10 @@ namespace EAModelKit.ViewModels.Exporter
 
             try
             {
-                var exportConfiguration = this.ExportSetups.Items.Where(x => x.ShouldBeExported)
-                    .Select(x => new GenericExportConfiguration(x.ExportableElements, x.SelectedTaggedValuesForExport.ToList()));
-                
+                var exportConfiguration = this.AvailableExportSetups.Items.Where(x => x.ShouldBeExported)
+                    .Select(x => new GenericExportConfiguration(x.ExportableElements,
+                        [..x.SelectedTaggedValuesForExport], [..x.SelectedConnectorsForExport]));
+
                 await this.exporterService.ExportElementsAsync(this.selectedFilePath, [..exportConfiguration]);
                 this.CloseWindowBehavior.Close();
             }
@@ -201,7 +238,7 @@ namespace EAModelKit.ViewModels.Exporter
                 return;
             }
 
-            this.CanProceed = this.ExportSetups.Items.Any(x => x.ShouldBeExported);
+            this.CanProceed = this.AvailableExportSetups.Items.Any(x => x.ShouldBeExported);
         }
 
         /// <summary>

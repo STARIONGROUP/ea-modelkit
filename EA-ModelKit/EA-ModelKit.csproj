@@ -34,7 +34,7 @@
         <PackageReference Include="Autofac" Version="8.1.1"/>
         <PackageReference Include="AutofacSerilogIntegration" Version="5.0.0"/>
         <PackageReference Include="ClosedXML" Version="0.104.2" />
-        <PackageReference Include="DevExpress.Wpf" Version="24.1.7"/>
+        <PackageReference Include="DevExpress.Wpf" Version="23.2.10" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0"/>
         <PackageReference Include="ReactiveUI.WPF" Version="20.1.63"/>
         <PackageReference Include="ReactiveUI" Version="20.1.63"/>

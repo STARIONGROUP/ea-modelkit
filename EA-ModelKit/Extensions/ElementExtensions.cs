@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="GenericExport.xaml.cs" company="Starion Group S.A.">
+// <copyright file="ElementExtensions.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,23 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Views.Export
+namespace EAModelKit.Extensions
 {
-    using System.Diagnostics.CodeAnalysis;
+    using EA;
 
     /// <summary>
-    /// Interaction logic for GenericExport.xaml
+    /// Extensions methods for the <see cref="Element" /> class
     /// </summary>
-    [ExcludeFromCodeCoverage]
-    public partial class GenericExport
+    internal static class ElementExtensions
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="GenericExport" />
+        /// Query the <see cref="Element" />'s kind
         /// </summary>
-        public GenericExport()
+        /// <param name="element">An <see cref="Element" /></param>
+        /// <returns>The Stereotype if present, the type either</returns>
+        public static string QueryElementKind(this Element element)
         {
-            this.InitializeComponent();
+            return string.IsNullOrEmpty(element.Stereotype) ? element.Type : element.Stereotype;
         }
     }
 }

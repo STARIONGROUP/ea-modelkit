@@ -36,6 +36,11 @@ namespace EAModelKit.Services.Cache
     internal class CacheService : ICacheService
     {
         /// <summary>
+        /// Cache Dictiornary for all casted <see cref="Connector" />
+        /// </summary>
+        private readonly Dictionary<int, SlimConnector> cachedConnectors = new();
+
+        /// <summary>
         /// The <see cref="Repository" /> that should be use to perform queries
         /// </summary>
         private Repository currentRepository;
@@ -59,7 +64,7 @@ namespace EAModelKit.Services.Cache
             this.resetOnNextQuery = true;
             this.currentRepository = repository;
         }
-        
+
         /// <summary>
         /// Get all <see cref="SlimTaggedValue" /> contained by an <see cref="Element" />
         /// </summary>
@@ -82,11 +87,63 @@ namespace EAModelKit.Services.Cache
 
             var taggedValues = elementIds
                 .AsParallel()
-                .SelectMany(id => this.taggedValuesPerElement.TryGetValue(id, out var cachedTaggedValues) 
-                    ? cachedTaggedValues 
+                .SelectMany(id => this.taggedValuesPerElement.TryGetValue(id, out var cachedTaggedValues)
+                    ? cachedTaggedValues
                     : Enumerable.Empty<SlimTaggedValue>());
 
             return taggedValues.ToList();
+        }
+
+        /// <summary>
+        /// Gets all <see cref="SlimConnector" /> linked to an <see cref="Element" />,
+        /// </summary>
+        /// <param name="elementId">The id of the <see cref="Element" /></param>
+        /// <returns>A collection of <see cref="SlimConnector" /></returns>
+        public IReadOnlyList<SlimConnector> GetAssociatedConnectors(int elementId)
+        {
+            this.VerifyNeedReset();
+
+            var sqlQuery = $"SELECT Connector_ID from t_connector where Start_Object_ID={elementId} or End_Object_ID={elementId}";
+            var sqlResult = this.currentRepository.SQLQuery(sqlQuery);
+            var xElement = XElement.Parse(sqlResult);
+            var xRows = xElement.Descendants("Row");
+
+            var connectorIds = xRows.Select(r => int.Parse(r.Elements().First(XElementHelper.MatchElementByName("Connector_ID")).Value, CultureInfo.InvariantCulture));
+            var connectors = new List<SlimConnector>();
+            var connectorsToBeCasted = new List<Connector>();
+            var elementsId = new HashSet<int>();
+
+            foreach (var connectorId in connectorIds)
+            {
+                if (this.cachedConnectors.TryGetValue(connectorId, out var cachedSlimConnector))
+                {
+                    connectors.Add(cachedSlimConnector);
+                }
+                else
+                {
+                    var connector = this.currentRepository.GetConnectorByID(connectorId);
+                    connectorsToBeCasted.Add(connector);
+                    elementsId.Add(connector.ClientID);
+                    elementsId.Add(connector.SupplierID);
+                }
+            }
+
+            if (elementsId.Count != 0)
+            {
+                var resolvedElements = this.currentRepository.GetElementSet(string.Join(",", elementsId), 0).OfType<Element>()
+                    .ToDictionary(x => x.ElementID, x => x);
+
+                foreach (var connectorToBeCasted in connectorsToBeCasted)
+                {
+                    var slimConnector = new SlimConnector(connectorToBeCasted, resolvedElements[connectorToBeCasted.ClientID], 
+                        resolvedElements[connectorToBeCasted.SupplierID]);
+                    
+                    this.cachedConnectors.Add(connectorToBeCasted.ConnectorID, slimConnector);
+                    connectors.Add(slimConnector);
+                }
+            }
+
+            return connectors;
         }
 
         /// <summary>
@@ -100,6 +157,7 @@ namespace EAModelKit.Services.Cache
             }
 
             this.CacheSlimTaggedValues();
+            this.cachedConnectors.Clear();
             this.resetOnNextQuery = false;
         }
 

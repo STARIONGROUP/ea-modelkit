@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="GenericExport.xaml.cs" company="Starion Group S.A.">
+// <copyright file="GenericExportSetupView.xaml.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -23,15 +23,15 @@ namespace EAModelKit.Views.Export
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// Interaction logic for GenericExport.xaml
+    /// Interaction logic for GenericExportSetupView.xaml
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public partial class GenericExport
+    public partial class GenericExportSetupView
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="GenericExport" />
+        /// Initialize a new instance of <see cref="GenericExportSetupView" />
         /// </summary>
-        public GenericExport()
+        public GenericExportSetupView()
         {
             this.InitializeComponent();
         }

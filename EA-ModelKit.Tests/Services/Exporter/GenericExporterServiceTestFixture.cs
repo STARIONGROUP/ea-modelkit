@@ -60,18 +60,30 @@ namespace EAModelKit.Tests.Services.Exporter
                 Name = "abc",
                 Value = "15"
             };
-
+            
             var element = new Mock<Element>();
             element.Setup(x => x.Name).Returns("abc");
             element.Setup(x => x.Stereotype).Returns("Function");
             element.Setup(x => x.ElementID).Returns(slimTaggedValue.ContainerId);
 
-            var slimTaggedValues = new List<SlimTaggedValue> { slimTaggedValue };
-            var slimElement = new SlimElement(element.Object, slimTaggedValues);
-
+            var targetElement = new Mock<Element>();
+            targetElement.Setup(x => x.Name).Returns("def");
+            element.Setup(x => x.Stereotype).Returns("");
+            element.Setup(x => x.Type).Returns("Requirement");
+            element.Setup(x => x.ElementID).Returns(45);
+            
+            var connector = new Mock<Connector>();
+            connector.Setup(x => x.Stereotype).Returns("");
+            connector.Setup(x => x.Type).Returns("Dependency");
+            connector.Setup(x => x.ClientID).Returns(element.Object.ElementID);
+            connector.Setup(x => x.SupplierID).Returns(targetElement.Object.ElementID);
+            
+            var slimConnector = new SlimConnector(connector.Object, element.Object, targetElement.Object);
+            var slimElement = new SlimElement(element.Object, [slimTaggedValue], [slimConnector]);
+            
             var genericConfigurations = new List<GenericExportConfiguration>
             {
-                new([slimElement], [slimTaggedValue.Name])
+                new([slimElement], [slimTaggedValue.Name], [slimConnector.ComputeConnectorKindFullName(slimElement.ElementId)])
             };
 
             this.excelWriter.Setup(x => x.WriteAsync(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
@@ -84,7 +96,7 @@ namespace EAModelKit.Tests.Services.Exporter
             this.excelWriter.Setup(x => x.WriteAsync(It.IsAny<Dictionary<string, IReadOnlyList<ExportableObject>>>(), It.IsAny<string>()))
                 .ThrowsAsync(new InvalidOperationException());
 
-            Assert.That(() => this.exporterService.ExportElementsAsync("abcpath", genericConfigurations), Throws.InvalidOperationException);
+            await Assert.ThatAsync(() => this.exporterService.ExportElementsAsync("abcpath", genericConfigurations), Throws.InvalidOperationException);
         }
     }
 }

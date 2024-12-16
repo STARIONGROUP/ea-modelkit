@@ -1,0 +1,16 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="EA-ModelKit Plugin for Enterprise Architect" Manufacturer="Starion" Version="1.0.0" UpgradeCode="403086f3-a0e3-4319-81c0-a49349567888"
+           Scope="perMachine" ProductCode="41808a19-12f5-4f5a-a945-3f2072eefeeb">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+    <MediaTemplate EmbedCab="yes" />
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+    <Feature Id="Main">
+      <ComponentGroupRef Id="AppComponents" />
+      <ComponentGroupRef Id="RegistryKeyComponentGroup" />
+    </Feature>
+  </Package>
+</Wix>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+    <Fragment>
+        <ComponentGroup Id="RegistryKeyComponentGroup" Directory="INSTALLFOLDER">
+            <?if $(var.Platform) = x64 ?>
+            <Component Id="EAModelKitPlugin64"  Guid="{9FF1C554-B66E-4EBF-BF15-E57B643B81B3}">
+                <RegistryKey Root="HKLM" Key="Software\Sparx Systems\EAAddIns64\EA-ModelKit">
+                    <RegistryValue Type="string" Value="EAModelKit.App" />
+                </RegistryKey>
+            </Component>
+            <Component Id="EAModelKitPluginOld"  Guid="{CA25100B-23BE-4052-A0A7-BFCB0B22F926}">
+                <RegistryKey Root="HKLM" Key="Software\Wow6432Node\Sparx Systems\EAAddIns\EA-ModelKit">
+                    <RegistryValue Type="string" Value="EAModelKit.App" />
+                </RegistryKey>
+            </Component>
+            <?else?>
+            <Component Id="EAModelKitPlugin32"  Guid="{353CB560-912A-41D0-B8AB-2761832F108A}">
+                <RegistryKey Root="HKLM" Key="Software\Sparx Systems\EAAddIns\EA-ModelKit">
+                    <RegistryValue Type="string" Value="EAModelKit.App" />
+                </RegistryKey>
+            </Component>
+            <?endif?>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

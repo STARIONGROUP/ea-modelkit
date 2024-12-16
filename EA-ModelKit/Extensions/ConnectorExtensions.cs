@@ -1,5 +1,5 @@
 ﻿// -------------------------------------------------------------------------------------------------
-// <copyright file="GenericExport.xaml.cs" company="Starion Group S.A.">
+// <copyright file="ConnectorExtensions.cs" company="Starion Group S.A.">
 // 
 //     Copyright (C) 2024 Starion Group S.A.
 // 
@@ -18,22 +18,23 @@
 // </copyright>
 // -----------------------------------------------------------------------------------------------
 
-namespace EAModelKit.Views.Export
+namespace EAModelKit.Extensions
 {
-    using System.Diagnostics.CodeAnalysis;
+    using EA;
 
     /// <summary>
-    /// Interaction logic for GenericExport.xaml
+    /// Extensions methods for the <see cref="Connector" /> class
     /// </summary>
-    [ExcludeFromCodeCoverage]
-    public partial class GenericExport
+    internal static class ConnectorExtensions
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="GenericExport" />
+        /// Query the <see cref="Connector" />'s kind
         /// </summary>
-        public GenericExport()
+        /// <param name="connector">An <see cref="Connector" /></param>
+        /// <returns>The Stereotype if present, the type either</returns>
+        public static string QueryConnectorKind(this Connector connector)
         {
-            this.InitializeComponent();
+            return string.IsNullOrEmpty(connector.Stereotype) ? connector.Type : connector.Stereotype;
         }
     }
 }

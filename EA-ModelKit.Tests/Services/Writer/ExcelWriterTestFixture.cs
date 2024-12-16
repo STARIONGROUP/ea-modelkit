@@ -52,7 +52,7 @@ namespace EAModelKit.Tests.Services.Writer
         public void VerifyWrite()
         {
             const string kind = "TestElement";
-            var element = new ExportableElement(new TestSlimElement(kind, "name", "alias", "a note", []), []);
+            var element = new ExportableElement(new TestSlimElement(kind, "name", "alias", "a note", [], []), [], []);
             
             var content = new Dictionary<string, IReadOnlyList<ExportableObject>>
             {

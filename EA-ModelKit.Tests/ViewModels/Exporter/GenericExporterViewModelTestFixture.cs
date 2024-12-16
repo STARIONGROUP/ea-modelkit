@@ -48,7 +48,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
         private Mock<IViewBuilderService> builderService;
         private Mock<IGenericExporterService> exporterService;
         private List<Element> elements;
-        private  Mock<ICloseWindowBehavior> closeWindowBehavior;
+        private Mock<ICloseWindowBehavior> closeWindowBehavior;
         
         [SetUp]
         public void Setup()
@@ -98,9 +98,20 @@ namespace EAModelKit.Tests.ViewModels.Exporter
                     Name = "123"
                 }
             };
+
+            var connectors = new List<SlimConnector>
+            {
+                CreateNewSlimConnector("Association", "implements", this.elements[0], this.elements[1]),
+                CreateNewSlimConnector("Association", "", this.elements[2], this.elements[3]),
+            };
             
             this.cacheService.Setup(x => x.GetTaggedValues(It.IsAny<int[]>()))
                 .Returns(taggedValues);
+
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[0].ElementID)).Returns([connectors[0]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[1].ElementID)).Returns([connectors[0]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[2].ElementID)).Returns([connectors[1]]);
+            this.cacheService.Setup(x => x.GetAssociatedConnectors(this.elements[3].ElementID)).Returns([connectors[1]]);
         }
 
         [Test]
@@ -110,7 +121,7 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             {
                 Assert.That(this.exporterViewModel.CanProceed, Is.False);
                 Assert.That(this.exporterViewModel.SelectedFilePath, Is.Null);
-                Assert.That(this.exporterViewModel.ExportSetups.Items, Is.Empty);
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items, Is.Empty);
                 Assert.That(this.exporterViewModel.OutputFileCommand, Is.Null);
                 Assert.That(this.exporterViewModel.ExportCommand, Is.Null);
             });
@@ -130,22 +141,22 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             Assert.Multiple(() =>
             {
                 this.cacheService.Verify(x => x.GetTaggedValues(It.IsAny<int[]>()), Times.Once);
-                Assert.That(this.exporterViewModel.ExportSetups.Items, Is.Not.Empty);
-                Assert.That(this.exporterViewModel.ExportSetups, Has.Count.EqualTo(3));
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items, Is.Not.Empty);
+                Assert.That(this.exporterViewModel.AvailableExportSetups, Has.Count.EqualTo(3));
                 Assert.That(this.exporterViewModel.OutputFileCommand, Is.Not.Null);
                 Assert.That(this.exporterViewModel.ExportCommand, Is.Not.Null);
-                Assert.That(this.exporterViewModel.ExportSetups.Items.All(x => x.ShouldBeExported), Is.True);
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.All(x => x.ShouldBeExported), Is.True);
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Requirement").AvailableTaggedValuesForExport
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Requirement").AvailableTaggedValuesForExport
                     .Count(), Is.EqualTo(2));
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Function").AvailableTaggedValuesForExport
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Function").AvailableTaggedValuesForExport
                     .Count(), Is.EqualTo(2));
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.Single(x => x.ElementKind == "Product").HaveAnyTaggedValues,
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.Single(x => x.ElementKind == "Product").HaveAnyTaggedValues,
                     Is.False);
                 
-                Assert.That(this.exporterViewModel.ExportSetups.Items.All(x => x.AvailableTaggedValuesForExport.Count()
+                Assert.That(this.exporterViewModel.AvailableExportSetups.Items.All(x => x.AvailableTaggedValuesForExport.Count()
                 == x.SelectedTaggedValuesForExport.Count()), Is.True);
             });
         }
@@ -182,10 +193,10 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             
             this.exporterViewModel.OutputFileCommand.Execute().Subscribe();
             Assert.That(this.exporterViewModel.CanProceed, Is.True);
-            this.exporterViewModel.ExportSetups.Items.ForEach(x => x.ShouldBeExported = false);
+            this.exporterViewModel.AvailableExportSetups.Items.ForEach(x => x.ShouldBeExported = false);
             
             Assert.That(this.exporterViewModel.CanProceed, Is.False);
-            this.exporterViewModel.ExportSetups.Items.First().ShouldBeExported = true;
+            this.exporterViewModel.AvailableExportSetups.Items[0].ShouldBeExported = true;
             Assert.That(this.exporterViewModel.CanProceed, Is.True);
         }
 
@@ -225,6 +236,16 @@ namespace EAModelKit.Tests.ViewModels.Exporter
             element.Setup(x => x.Stereotype).Returns(stereotype);
             
             return element.Object;
+        }
+
+        private static SlimConnector CreateNewSlimConnector(string connectorType, string connectorStereotype, Element source, Element target)
+        {
+            var connector = new Mock<Connector>();
+            connector.Setup(x => x.Stereotype).Returns(connectorStereotype);
+            connector.Setup(x => x.Type).Returns(connectorType);
+            connector.Setup(x => x.ClientID).Returns(source.ElementID);
+            connector.Setup(x => x.SupplierID).Returns(target.ElementID);
+            return new SlimConnector(connector.Object, source, target);
         }
     }
 }

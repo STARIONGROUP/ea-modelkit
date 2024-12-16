@@ -48,9 +48,9 @@ namespace EAModelKit.ViewModels.Exporter
         bool ShouldBeExported { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of available TaggedValues name that could be exported
+        /// Gets the collection of available TaggedValues name that could be exported
         /// </summary>
-        IEnumerable<string> AvailableTaggedValuesForExport { get; set; }
+        IEnumerable<string> AvailableTaggedValuesForExport { get; }
 
         /// <summary>
         /// Asserts that any TaggedValue are available for export
@@ -58,8 +58,28 @@ namespace EAModelKit.ViewModels.Exporter
         bool HaveAnyTaggedValues { get; }
 
         /// <summary>
+        /// Asserts that any Connector are available for export
+        /// </summary>
+        bool HaveAnyConnectors { get; }
+
+        /// <summary>
         /// Gets the collection of exportable <see cref="SlimElement" /> tied to this setup
         /// </summary>
         IReadOnlyList<SlimElement> ExportableElements { get; }
+
+        /// <summary>
+        /// Gets the collection of available Connectors kind that could be exported
+        /// </summary>
+        IEnumerable<string> AvailableConnectorsForExport { get; }
+
+        /// <summary>
+        /// Gets or sets the collection of selected Connectors kind that have to be exported
+        /// </summary>
+        IEnumerable<string> SelectedConnectorsForExport { get; set; }
+
+        /// <summary>
+        /// Gets the <see cref="Element" /> Type
+        /// </summary>
+        string ElementType { get; }
     }
 }
